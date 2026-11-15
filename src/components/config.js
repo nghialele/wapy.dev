@@ -9,7 +9,7 @@ export const siteConfig = {
   },
   author: {
     name: 'nghialele',
-    url: 'https://idler.me',
+    url: 'https://nghialele.dev',
   },
   from: 'sub.idler.me',
 };

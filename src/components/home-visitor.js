@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Icons } from '@/components/icons';
@@ -47,7 +46,6 @@ export const HomeVisitor = () => {
           </div>
           <p className='mt-4 text-sm text-muted-foreground'>{t('free.selfHostNote')}</p>
         </div>
-        <Image src='/images/banner.png' alt={t('hero.imageAlt')} width={960} height={600} />
       </div>
 
       <div className='flex flex-col gap-6'>

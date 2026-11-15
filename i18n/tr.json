@@ -68,8 +68,7 @@
         "badge": "Harcamalarınızı kontrol altına almak ister misiniz?",
         "title": "Akıllı Abonelik Yönetimi Artık Çok Kolay",
         "subtitle": "{appName} ile aboneliklerinizi takip edin, tekrarlayan harcamalarınızı izleyin ve güçlü, okunabilir bir panelde ödeme hatırlatmaları alın.",
-        "tagline": "Bildirim alın ve bir daha asla ödeme kaçırmayın.",
-        "imageAlt": "Ana Görsel"
+        "tagline": "Bildirim alın ve bir daha asla ödeme kaçırmayın."
       },
       "features": {
         "title": "Güçlü Özellikler",
@@ -125,38 +124,6 @@
       },
       "title": "404",
       "backToHome": "Ana Sayfaya Dön"
-    },
-    "contact": {
-      "description": "Bir sorunuz mu var veya bizimle iletişime geçmek mi istiyorsunuz? Aşağıdaki formu doldurun, en kısa sürede size geri dönelim.",
-      "form": {
-        "name": {
-          "label": "İsim",
-          "placeholder": "Adınız",
-          "error": "İsim en az 2 karakter olmalıdır"
-        },
-        "email": {
-          "label": "E-posta",
-          "placeholder": "eposta@ornek.com",
-          "error": "Geçersiz e-posta adresi"
-        },
-        "message": {
-          "label": "Mesaj",
-          "placeholder": "Size nasıl yardımcı olabileceğimizi söyleyin...",
-          "error": "Mesaj en az 10 karakter olmalıdır"
-        },
-        "submit": "Mesaj Gönder",
-        "submitting": "Gönderiliyor..."
-      },
-      "success": {
-        "title": "Teşekkürler!",
-        "message1": "Mesajınız başarıyla gönderildi.",
-        "message2": "Size en kısa sürede geri döneceğiz..."
-      },
-      "toast": {
-        "success": "Mesajınız başarıyla gönderildi.",
-        "error": "Mesaj gönderilemedi! Lütfen daha sonra tekrar deneyin.",
-        "spam": "Bir hata oluştu. Lütfen daha sonra tekrar deneyin."
-      }
     },
     "account": {
       "meta": {
@@ -470,7 +437,7 @@
         }
       },
       "contactUs": {
-        "description": "Gizlilik Politikamız veya verilerinizi nasıl işlediğimiz hakkında sorularınız varsa, lütfen <link>iletişim formu</link> aracılığıyla bizimle iletişime geçin."
+        "description": "If you have any questions about our Privacy Policy or how we handle your data, reach the operator on Matrix from the <link>contact page</link>."
       },
       "updates": {
         "title": "Bu Politikadaki Güncellemeler",
@@ -554,7 +521,19 @@
         "description": "{siteName}'in bu Kullanım Koşullarının herhangi bir hakkını veya hükmünü uygulamaması, o hak veya hükümden feragat edildiği anlamına gelmez."
       },
       "contactUs": {
-        "description": "Bu Kullanım Koşulları hakkında herhangi bir sorunuz veya endişeniz varsa, lütfen Sitedeki <link>iletişim formu</link> aracılığıyla bizimle iletişime geçin."
+        "description": "If you have any questions or concerns about these Terms of Service, reach the operator on Matrix from the <link>contact page</link>."
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "The fastest way to reach the operator is Matrix. More channels are on the way.",
+      "matrix": {
+        "label": "Message on Matrix",
+        "handle": "@nghialele:goon.li"
+      },
+      "moreChannels": {
+        "title": "More channels",
+        "note": "Coming soon."
       }
     }
   },

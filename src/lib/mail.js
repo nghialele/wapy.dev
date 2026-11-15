@@ -11,8 +11,6 @@ const mailServerConfiguration = {
 
 const mailFrom = process.env?.EMAIL_FROM ? process.env.EMAIL_FROM : '?';
 
-const mailContact = process.env?.EMAIL_CONTACT_EMAIL ? process.env.EMAIL_CONTACT_EMAIL : '';
-
 const mailSend = async (params) => {
   const transport = createTransport(mailServerConfiguration);
   const result = await transport.sendMail(params);
@@ -25,4 +23,4 @@ const mailSend = async (params) => {
   }
 }
 
-export { mailFrom, mailContact, mailSend };
+export { mailFrom, mailSend };

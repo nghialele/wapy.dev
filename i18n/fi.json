@@ -68,8 +68,7 @@
         "badge": "Haluatko hallita kulujasi?",
         "title": "Älykäs tilausten hallinta helposti",
         "subtitle": "{appName} auttaa sinua seuraamaan tilauksia, valvomaan toistuvia kuluja ja saamaan maksumuistutuksia yhdessä tehokkaassa ja selkeässä hallintapaneelissa.",
-        "tagline": "Saat ilmoituksia etkä koskaan unohda maksua.",
-        "imageAlt": "Pääkuva"
+        "tagline": "Saat ilmoituksia etkä koskaan unohda maksua."
       },
       "features": {
         "title": "Tehokkaat ominaisuudet",
@@ -125,38 +124,6 @@
       },
       "title": "404",
       "backToHome": "Takaisin etusivulle"
-    },
-    "contact": {
-      "description": "Onko sinulla kysyttävää tai haluatko ottaa yhteyttä? Täytä alla oleva lomake, niin palaamme asiaan mahdollisimman pian.",
-      "form": {
-        "name": {
-          "label": "Nimi",
-          "placeholder": "Nimesi",
-          "error": "Nimen on oltava vähintään 2 merkkiä"
-        },
-        "email": {
-          "label": "Sähköposti",
-          "placeholder": "sinun@sahkoposti.fi",
-          "error": "Virheellinen sähköpostiosoite"
-        },
-        "message": {
-          "label": "Viesti",
-          "placeholder": "Kerro, miten voimme auttaa...",
-          "error": "Viestin on oltava vähintään 10 merkkiä"
-        },
-        "submit": "Lähetä viesti",
-        "submitting": "Lähetetään..."
-      },
-      "success": {
-        "title": "Kiitos!",
-        "message1": "Viestisi on lähetetty onnistuneesti.",
-        "message2": "Palaamme asiaan..."
-      },
-      "toast": {
-        "success": "Viestisi on lähetetty onnistuneesti.",
-        "error": "Viestin lähettäminen epäonnistui! Yritä myöhemmin uudelleen.",
-        "spam": "Tapahtui virhe. Yritä myöhemmin uudelleen."
-      }
     },
     "account": {
       "meta": {
@@ -470,7 +437,7 @@
         }
       },
       "contactUs": {
-        "description": "Jos sinulla on kysyttävää tietosuojakäytännöstämme tai siitä, miten käsittelemme tietojasi, ota yhteyttä <link>yhteydenottolomakkeella</link>."
+        "description": "If you have any questions about our Privacy Policy or how we handle your data, reach the operator on Matrix from the <link>contact page</link>."
       },
       "updates": {
         "title": "Käytännön päivitykset",
@@ -554,7 +521,19 @@
         "description": "{siteName}:n laiminlyönti panna täytäntöön mitä tahansa näiden Käyttöehtojen oikeutta tai määräystä ei muodosta luopumista kyseisestä oikeudesta tai määräyksestä."
       },
       "contactUs": {
-        "description": "Jos sinulla on kysyttävää tai huolenaiheita näistä Käyttöehdoista, ota yhteyttä <link>yhteydenottolomakkeella</link> Sivustolla."
+        "description": "If you have any questions or concerns about these Terms of Service, reach the operator on Matrix from the <link>contact page</link>."
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "The fastest way to reach the operator is Matrix. More channels are on the way.",
+      "matrix": {
+        "label": "Message on Matrix",
+        "handle": "@nghialele:goon.li"
+      },
+      "moreChannels": {
+        "title": "More channels",
+        "note": "Coming soon."
       }
     }
   },
