@@ -13,6 +13,15 @@ Track recurring expenses in one readable dashboard, get reminders before you are
 
 ## Quick start
 
+No build needed — use the pre-built image from this repo's package registry:
+
+```bash
+curl -fsSL https://githo.st/nghialele/sub/raw/branch/main/scripts/setup.sh | sh -s -- --from-image
+docker compose -f docker-compose.image.yml up -d
+```
+
+Or build it yourself from source:
+
 ```bash
 ./scripts/setup.sh && docker compose up -d --build
 ```
