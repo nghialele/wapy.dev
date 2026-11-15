@@ -18,6 +18,9 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    # Lets EMAIL_SERVER_HOST=host.docker.internal reach an SMTP server on the host itself.
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     ports:
       - '127.0.0.1:3000:3000'
     depends_on:
