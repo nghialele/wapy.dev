@@ -1117,12 +1117,6 @@
         "acceptAll": "Hyväksy kaikki"
       }
     },
-    "modeToggle": {
-      "toggleTheme": "Vaihda teemaa",
-      "dark": "Tumma",
-      "light": "Vaalea",
-      "system": "Järjestelmä"
-    },
     "searchBar": {
       "placeholder": "Etsi..."
     }

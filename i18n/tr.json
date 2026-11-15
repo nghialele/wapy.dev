@@ -1117,12 +1117,6 @@
         "acceptAll": "Tümünü Kabul Et"
       }
     },
-    "modeToggle": {
-      "toggleTheme": "Temayı değiştir",
-      "dark": "Koyu",
-      "light": "Açık",
-      "system": "Sistem"
-    },
     "searchBar": {
       "placeholder": "Ara..."
     }
