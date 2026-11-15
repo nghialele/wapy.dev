@@ -63,18 +63,6 @@ export default function Footer( { author, github } ) {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href='/pricing' className='inline-flex items-center gap-1 w-full cursor-pointer text-sm font-medium focus:outline-hidden'>
-                    <Icons.wallet className='size-4' />
-                    { tCommon('pricing') }
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href='/refund-policy' className='inline-flex items-center gap-1 w-full cursor-pointer text-sm font-medium focus:outline-hidden'>
-                    <Icons.receipt className='size-4' />
-                    { tCommon('refundPolicy') }
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
                   <Link href='/privacy' className='inline-flex items-center gap-1 w-full cursor-pointer text-sm font-medium focus:outline-hidden'>
                     <Icons.shieldCheck className='size-4' />
                     { tCommon('privacyPolicy') }

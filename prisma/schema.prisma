@@ -40,11 +40,7 @@ model User {
   // External service configurations
   externalServices  Json            @default("{}")
 
-  // Payments details
-  trialStartedAt    DateTime?       @default(now()) @map("trial_started_at")
-  fullAccess        Boolean         @default(false) @map("full_access")
   isBlocked         Boolean         @default(false) @map("is_blocked")
-  subNextNotification DateTime?     @default(dbgenerated("NOW() + INTERVAL '1 month' - INTERVAL '1 day'")) @map("sub_next_notification")
 
   // Subscriptions
   subscriptions     Subscription[]
@@ -58,8 +54,6 @@ model User {
   pastNotifications PastNotification[]
   // Past Payments
   pastPayments      PastPayment[]
-  // Paddle subscriptions
-  paddleUserDetails PaddleUserDetails?
 }
 
 model Account {
@@ -228,28 +222,3 @@ model PastPayment {
   @@index([subscriptionId])
 }
 
-model PaddleUserDetails {
-  id                String    @id @default(cuid())
-  userId            String    @map("user_id")
-  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  // Customer information
-  customerId        String    @map("customer_id")
-  marketingConsent  Boolean   @default(false) @map("marketing_consent")
-  customerStatus    String    @default("none") @map("customer_status")
-
-  subId             String    @default("") @map("subscription_id")
-  // Can be none + active, cancelled, past_due, paused, trialing
-  // https://developer.paddle.com/webhooks/subscriptions/subscription-created
-  subStatus         String    @default("none") @map("subscription_status")
-  subStartedAt      DateTime? @map("subscription_started_at")
-  subNextPaymentAt  DateTime? @map("subscription_next_payment_at")
-  subScheduledChange Json?    @default("{}") @map("subscription_scheduled_change")
-
-  createdAt         DateTime  @default(now()) @map("created_at")
-  updatedAt         DateTime  @updatedAt @map("updated_at")
-
-  @@index([userId, customerId])
-  @@unique([customerId])
-  @@unique([userId])
-}

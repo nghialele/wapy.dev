@@ -37,7 +37,6 @@ export function CookieConsent() {
     savePreferences({
       essential: true,
       functional: true,
-      analytics: true,
     });
   };
 
@@ -88,26 +87,6 @@ export function CookieConsent() {
             </label>
             <p className='text-sm text-muted-foreground'>
               {t('functional.description')}
-            </p>
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className='flex items-center space-x-2'>
-          <Checkbox
-            checked={preferences.analytics}
-            onCheckedChange={(checked) =>
-              setPreferences(prev => ({ ...prev, analytics: checked === true }))
-            }
-            title={t('analytics.title')}
-          />
-          <div className='grid gap-1.5 leading-none'>
-            <label className='font-medium'>
-              {t('analytics.title')}
-            </label>
-            <p className='text-sm text-muted-foreground'>
-              {t('analytics.description')}
             </p>
           </div>
         </div>

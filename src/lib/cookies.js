@@ -1,12 +1,11 @@
 import Cookies from 'js-cookie';
 import { RemoveLanguageCookie } from '@/components/language/cookie';
 
-const PREFERENCES_COOKIE_KEY = 'wapy-dev.cookie-preferences-v1';
+const PREFERENCES_COOKIE_KEY = 'sub-idler-me.cookie-preferences-v1';
 
 const defaultPreferences= {
   essential: true,
   functional: true,
-  analytics: false,
 };
 
 export const isCookiePreferencesSet = () => {

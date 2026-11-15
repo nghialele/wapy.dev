@@ -10,22 +10,10 @@
     "close": "Sulje",
     "contact": "Ota yhteyttä",
     "signIn": "Kirjaudu sisään",
-    "pricing": "Hinnoittelu",
-    "refundPolicy": "Palautuskäytäntö",
     "termsOfService": "Käyttöehdot",
     "privacyPolicy": "Tietosuojakäytäntö"
   },
   "notifications": {
-    "trial": {
-      "reminder": {
-        "title": "{siteName} Kokeilujakson muistutus",
-        "message": "{siteName} kokeilujaksosi päättyy pian. Tilaa nyt jatkaaksesi kaikkien ominaisuuksien käyttöä."
-      },
-      "expired": {
-        "title": "{siteName} Kokeilujakso päättynyt",
-        "message": "{siteName} kokeilujaksosi on päättynyt. Tilaa nyt jatkaaksesi kaikkien ominaisuuksien käyttöä."
-      }
-    },
     "subscription": {
       "reminder": {
         "title": "{siteName} Maksumuistutus",
@@ -112,7 +100,7 @@
         }
       },
       "howItWorks": {
-        "title": "Näin Wapy toimii",
+        "title": "Näin se toimii",
         "subtitle": "Aloita minuuteissa",
         "step1": {
           "title": "Rekisteröidy ja kirjaudu",
@@ -247,54 +235,6 @@
           "description": "Haluatko varmasti poistaa tämän maksutavan? Tätä toimintoa ei voi peruuttaa.",
           "success": "Maksutapa poistettu onnistuneesti.",
           "error": "Maksutavan poistaminen epäonnistui!"
-        }
-      },
-      "subscriptionStatus": {
-        "title": "Tilauksen tila",
-        "description": "Tilauksesi tila",
-        "trial": {
-          "active": "Kokeilujaksosi päättyy <date></date>.",
-          "notification": {
-            "multipleDays": "Ilmoitamme sinulle <highlight>1 päivä ennen</highlight> kokeilujaksosi päättymistä.",
-            "lastDay": "Ilmoitamme sinulle <highlight>kun</highlight> kokeilujaksosi päättyy."
-          },
-          "ended": "Kokeilujaksosi on päättynyt!",
-          "subscribe": "Haluatko jatkaa kanssamme?"
-        },
-        "subscription": {
-          "active": {
-            "scheduled": {
-              "pause": "Tilauksesi on <status>keskeytetty</status> ja päättyy <date></date>.",
-              "cancel": "Tilauksesi on <status>peruutettu</status> ja päättyy <date></date>."
-            },
-            "nextPayment": "Seuraava maksusi on <date></date>.",
-            "notification": "Ilmoitamme sinulle ennen tilauksesi päättymistä."
-          },
-          "paused": {
-            "message": "Tilauksesi on tällä hetkellä keskeytetty.",
-            "button": "Jatka tilausta"
-          },
-          "cancelled": {
-            "message": "Tilauksesi on peruutettu.",
-            "button": "Aktivoi tilaus uudelleen"
-          },
-          "pastDue": {
-            "message": "Maksusi on myöhässä. Päivitä maksutapasi."
-          },
-          "cancel": {
-            "button": "Peruuta tilaus",
-            "dialog": {
-              "title": "Haluatko varmasti peruuttaa?",
-              "description": "Tämä toiminto peruuttaa tilauksesi nykyisen laskutuskauden lopussa. Sinulla on käyttöoikeus siihen asti."
-            },
-            "confirmButton": "Vahvista peruutus"
-          }
-        },
-        "fullAccess": {
-          "message": "Onnittelut! Sinulla on täysi pääsy kaikkiin ominaisuuksiin."
-        },
-        "blocked": {
-          "message": "Outoa! Pääsysi palveluun on estetty."
         }
       },
       "externalServices": {
@@ -485,10 +425,6 @@
         }
       }
     },
-    "pricing": {
-      "title": "Yksinkertainen, läpinäkyvä hinnoittelu",
-      "description": "Seuraa ja hallitse kaikkia tilauksiasi tehokkailla ominaisuuksilla edulliseen hintaan"
-    },
     "privacy": {
       "lastUpdated": "Viimeksi päivitetty 17. tammikuuta 2025",
       "introduction": {
@@ -515,10 +451,6 @@
           "improving": "Palveluidemme parantamiseen anonyymien käyttötietojen avulla"
         }
       },
-      "paymentProcessing": {
-        "title": "Maksujen käsittely",
-        "description": "Käytämme <paddle>Paddle.com</paddle>-palvelua maksujen käsittelyyn. Kun suoritat maksun, maksutietosi kerätään ja käsitellään suoraan Paddlen toimesta. Emme tallenna maksutietojasi palvelimillemme. Lisätietoja siitä, miten Paddle käsittelee tietojasi, löydät <privacy>Paddlen tietosuojakäytännöstä</privacy>."
-      },
       "dataProtection": {
         "title": "Tietosuoja",
         "description": "Toteutamme vahvoja turvatoimia henkilötietojesi suojaamiseksi. Emme koskaan jaa tietojasi kolmansille osapuolille ja noudatamme tiukkoja tietosuojaprotokollia estääksemme luvattoman pääsyn, paljastamisen tai tietojesi väärinkäytön."
@@ -543,24 +475,6 @@
       "updates": {
         "title": "Käytännön päivitykset",
         "description": "Saatamme päivittää tätä tietosuojakäytäntöä ajoittain. Ilmoitamme muutoksista julkaisemalla uuden tietosuojakäytännön tälle sivulle ja päivittämällä voimaantulopäivän."
-      }
-    },
-    "refundPolicy": {
-      "lastUpdated": "Viimeksi päivitetty 17. tammikuuta 2025",
-      "introduction": "Huonot palautuskäytännöt ovat turhauttavia. Tuntuu kuin yritys yrittäisi vain huijata sinua. Emme koskaan halua asiakkaidemme tuntevan niin, joten palautuskäytäntömme on yksinkertainen: Jos olet joskus tyytymätön mistä tahansa syystä, <link>ota yhteyttä</link> ja kerro meille, niin teemme töitä varmistaaksemme, että olet tyytyväinen.",
-      "fullRefunds": {
-        "title": "Esimerkkejä täysistä palautuksista",
-        "items": {
-          "charged": "Jos sinulta veloitettiin juuri seuraavan kuukauden palvelusta, mutta tarkoituksesi oli peruuttaa, palautamme mielellämme ylimääräisen veloituksen"
-        }
-      },
-      "partialRefunds": {
-        "title": "Esimerkkejä osittaisista palautuksista",
-        "items": {
-          "week": "Jos sinulta veloitettiin kuukauden palvelusta, mutta käytit sitä vain viikon, palautamme erotuksen",
-          "year": "Jos sinulta veloitettiin vuoden palvelusta, mutta käytit sitä vain kuukauden, palautamme erotuksen",
-          "weekDuplicate": "Jos sinulta veloitettiin kuukauden palvelusta, mutta käytit sitä vain viikon, palautamme erotuksen"
-        }
       }
     },
     "reports": {
@@ -593,12 +507,6 @@
           "malicious": "Et saa lähettää haitallista koodia, viruksia tai muuta haitallista sisältöä"
         },
         "paragraph3": "Huomaa, että näiden Käyttöehtojen rikkominen johtaa välittömään pääsysi lopettamiseen Palveluihimme."
-      },
-      "payment": {
-        "title": "Maksu",
-        "paragraph1": "Jos ostat tilauksen Sivustolle, sitoudut maksamaan sovellettavat maksut, jotka on ilmoitettu kassaprosessin aikana.",
-        "paragraph2": "Käytämme <paddle>Paddle.com</paddle>-palvelua maksupalveluntarjoajanamme. Tekemällä ostoksen hyväksyt myös Paddlen <terms>Käyttöehdot</terms>. Paddle käsittelee kaikki maksut ja hoitaa niihin liittyvät asiakaspalvelukyselyt.",
-        "paragraph3": "Sivusto käsittelee palautukset <refund>palautuskäytäntömme</refund> mukaisesti."
       },
       "cookies": {
         "title": "Evästeiden käyttö",
@@ -1225,10 +1133,6 @@
         "title": "Toiminnalliset evästeet",
         "description": "Parantavat käyttökokemustasi (teema, kieliasetukset)."
       },
-      "analytics": {
-        "title": "Analytiikkaevästeet",
-        "description": "Auttavat meitä ymmärtämään, miten kävijät ovat vuorovaikutuksessa verkkosivustomme kanssa."
-      },
       "buttons": {
         "savePreferences": "Tallenna asetukset",
         "acceptAll": "Hyväksy kaikki"
@@ -1240,48 +1144,8 @@
       "light": "Vaalea",
       "system": "Järjestelmä"
     },
-    "pricingTable": {
-      "enjoy": {
-        "title": "Nauti",
-        "description": "Täydellinen vaivattomaan kokemukseen",
-        "period": "+vero/kk",
-        "features": {
-          "unlimited": "Rajattomat tilaukset",
-          "notifications": "Sähköposti- ja push-ilmoitukset",
-          "reports": "Raportit ja analytiikka",
-          "support": "Premium-tuki",
-          "firstMonth": "Ensimmäinen kuukausi ilmaiseksi",
-          "priority": "Ensisijainen ominaisuuspyynnöt"
-        },
-        "button": "Aloita"
-      },
-      "selfHosted": {
-        "title": "Itse isännöity",
-        "description": "Täydellinen itse isännöijille",
-        "price": "Ilmainen",
-        "period": "ikuisesti",
-        "features": {
-          "infrastructure": "Oma infrastruktuurisi",
-          "sourceCode": "Pääsy lähdekoodiin",
-          "community": "Yhteisötuki"
-        },
-        "button": "Katso GitHubissa"
-      }
-    },
     "searchBar": {
       "placeholder": "Etsi..."
-    },
-    "subscriptionGuard": {
-      "title": "Tilaus vaaditaan",
-      "description": {
-        "trialExpired": "Kokeilujaksosi on päättynyt.",
-        "cancelled": "Tilauksesi on peruutettu.",
-        "pastDue": "Maksusi on myöhässä.",
-        "paused": "Tilauksesi on keskeytetty.",
-        "default": "Tarvitset aktiivisen tilauksen päästäksesi tähän ominaisuuteen."
-      },
-      "message": "Käy tilisivullasi hallitaksesi tilauksiasi ja jatkaaksesi kaikkien ominaisuuksien käyttöä.",
-      "button": "Siirry tiliasetuksiin"
     }
   }
 }

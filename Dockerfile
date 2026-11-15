@@ -21,8 +21,8 @@ FROM base AS runner
 WORKDIR /app
 
 # Add metadata about your image
-LABEL org.opencontainers.image.source="https://github.com/meceware/wapy.dev"
-LABEL org.opencontainers.image.description="Wapy.dev - Track, manage, and optimize your recurring expenses in one powerful dashboard"
+LABEL org.opencontainers.image.source="https://idler.me"
+LABEL org.opencontainers.image.description="sub.idler.me - free hosted subscription tracker"
 LABEL org.opencontainers.image.licenses="MIT + Commons Clause"
 
 # Disable telemetry

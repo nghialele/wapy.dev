@@ -55,31 +55,8 @@ export const PrivacyPolicy = () => {
           </section>
 
           <section className='space-y-4'>
-            <h2 className='text-2xl font-semibold'>{t('paymentProcessing.title')}</h2>
-            <p>
-              {t.rich('paymentProcessing.description', {
-                paddle: (chunks) => (
-                  <a
-                    href='https://www.paddle.com'
-                    className='underline underline-offset-4 focus:outline-hidden'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {chunks}
-                  </a>
-                ),
-                privacy: (chunks) => (
-                  <a
-                    href='https://www.paddle.com/legal/privacy'
-                    className='underline underline-offset-4 focus:outline-hidden'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {chunks}
-                  </a>
-                ),
-              })}
-            </p>
+            <h2 className='text-2xl font-semibold'>{t('operator.title')}</h2>
+            <p>{t('operator.description')}</p>
           </section>
 
           <section className='space-y-4'>

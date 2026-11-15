@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useEventListener } from 'usehooks-ts';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
-import { ModeToggle } from '@/components/mode-toggle';
 import { LanguageSelector } from '@/components/language/selector';
 import { useThrottle } from '@/lib/hooks';
 import { Button } from '@/components/ui/button';
@@ -23,6 +22,7 @@ import { useAuth } from '@/lib/auth-client';
 import { siteConfig } from '@/components/config';
 
 const HeaderBase = ({ mainNavigation = (<></>), iconNavigation = (<></>) }) => {
+  const [word, ...rest] = siteConfig.name.split('.');
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const throttle = useThrottle();
@@ -56,8 +56,8 @@ const HeaderBase = ({ mainNavigation = (<></>), iconNavigation = (<></>) }) => {
                 priority
               />
               <div className='inline-flex gap-0 justify-center items-end'>
-                <span className='font-semibold text-xl'>Wapy</span>
-                <span className='text-sm text-muted-foreground'>.dev</span>
+                <span className='font-semibold text-xl'>{word}</span>
+                <span className='text-sm text-muted-foreground'>.{rest.join('.')}</span>
               </div>
             </Link>
           </div>
@@ -67,7 +67,6 @@ const HeaderBase = ({ mainNavigation = (<></>), iconNavigation = (<></>) }) => {
 
           {/* Right Side Icons */}
           <div className='flex items-center gap-1 md:gap-2'>
-            <ModeToggle />
             { iconNavigation }
           </div>
         </div>
@@ -105,18 +104,6 @@ export function HeaderVisitor() {
             <LanguageSelector className='cursor-pointer h-auto w-full justify-normal text-start text-wrap' />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link href='/pricing' className='flex items-center gap-2 cursor-pointer focus:outline-hidden'>
-              <Icons.wallet className='size-4' />
-              {tCommon('pricing')}
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href='/refund-policy' className='flex items-center gap-2 cursor-pointer focus:outline-hidden'>
-              <Icons.receipt className='size-4' />
-              {tCommon('refundPolicy')}
-            </Link>
-          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href='/privacy' className='flex items-center gap-2 cursor-pointer focus:outline-hidden'>
               <Icons.shieldCheck className='size-4' />

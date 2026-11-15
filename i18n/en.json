@@ -10,22 +10,10 @@
     "close": "Close",
     "contact": "Contact Us",
     "signIn": "Sign in",
-    "pricing": "Pricing",
-    "refundPolicy": "Refund Policy",
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy"
   },
   "notifications": {
-    "trial": {
-      "reminder": {
-        "title": "{siteName} Trial Reminder",
-        "message": "Your {siteName} trial period is ending soon. Subscribe now to keep enjoying all features."
-      },
-      "expired": {
-        "title": "{siteName} Trial Expired",
-        "message": "Your {siteName} trial period is expired. Subscribe now to keep enjoying all features."
-      }
-    },
     "subscription": {
       "reminder": {
         "title": "{siteName} Payment Reminder",
@@ -62,8 +50,8 @@
     "account": "Account"
   },
   "footer": {
-    "madeBy": "Made with ♥ by <author>{name}</author>.",
-    "github": "Github",
+    "madeBy": "Run by <author>{name}</author>.",
+    "github": "Source",
     "menu": "Menu"
   },
   "languages": {
@@ -77,22 +65,22 @@
   "home": {
     "visitor": {
       "hero": {
-        "badge": "Want to take control of your expenses?",
-        "title": "Smart Subscription Management Made Easy",
-        "subtitle": "{appName} helps you track subscriptions, monitor recurring expenses, and get payment reminders in one powerful and human readable dashboard.",
-        "tagline": "Get notified and never miss a payment again.",
-        "imageAlt": "Hero"
+        "badge": "Free to use. Hosted by one person.",
+        "title": "Track every subscription. Miss no payment.",
+        "subtitle": "{appName} keeps recurring charges in one readable dashboard and reminds you before they hit.",
+        "tagline": "Free to use. No card, no trial, no upsell.",
+        "imageAlt": "sub.idler.me dashboard"
       },
       "features": {
-        "title": "Powerful Features",
-        "subtitle": "Everything you need to manage your subscriptions effectively",
+        "title": "What it does",
+        "subtitle": "Everything the software does, and nothing you have to pay for.",
         "billingCycles": {
           "title": "Flexible Billing Cycles",
           "description": "Support for monthly, yearly, and custom billing intervals"
         },
         "notifications": {
           "title": "Smart Notifications",
-          "description": "Get timely reminders for payments and trial ends"
+          "description": "Reminders by email, push, webhook, ntfy, Discord, or Slack"
         },
         "reports": {
           "title": "Reports & Insights",
@@ -112,26 +100,44 @@
         }
       },
       "howItWorks": {
-        "title": "How Wapy Works",
+        "title": "How it works",
         "subtitle": "Get started in minutes",
         "step1": {
-          "title": "Sign Up & Login",
-          "description": "Create an account or login to start tracking your expenses"
+          "title": "Sign in with a link",
+          "description": "Enter your email, open the link, and you are in. No password to remember."
         },
         "step2": {
-          "title": "Set Up Notifications",
-          "description": "Customize alerts for upcoming payments and trial end dates via email, push and webhook notifications"
+          "title": "Add what you pay for",
+          "description": "Log each subscription with its price, billing cycle, and currency."
         },
         "step3": {
-          "title": "Track & Optimize",
-          "description": "Monitor spending patterns and get insights to reduce unnecessary subscription costs"
+          "title": "Let the reminders arrive",
+          "description": "Choose the channels you want, then mark a payment as paid straight from the notification."
         }
+      },
+      "free": {
+        "eyebrow": "Free",
+        "title": "Free, with no catch",
+        "description": "The software is open source. This instance is hosted for people who cannot run their own.",
+        "price": "€0",
+        "period": "forever",
+        "features": {
+          "unlimited": "Unlimited subscriptions",
+          "notifications": "Email, push, webhook, ntfy, Discord, and Slack reminders",
+          "reports": "Reports and spending insights",
+          "export": "Export your data any time",
+          "noAds": "No ads, no tracking, no payment details",
+          "bestEffort": "Best effort, no uptime promise"
+        },
+        "button": "Sign in",
+        "selfHostButton": "Self-host it",
+        "selfHostNote": "Prefer your own server? The same software runs with Docker in about ten minutes."
       }
     }
   },
   "pages": {
     "notFound": {
-      "meta" : {
+      "meta": {
         "title": "Page Not Found",
         "description": "The page you're looking for doesn't exist."
       },
@@ -171,7 +177,7 @@
       }
     },
     "account": {
-      "meta" : {
+      "meta": {
         "title": "Account Settings",
         "description": "Manage your account settings and preferences."
       },
@@ -247,54 +253,6 @@
           "description": "Are you sure you want to delete this payment method? This action cannot be undone.",
           "success": "Payment method deleted successfully.",
           "error": "Failed to delete payment method!"
-        }
-      },
-      "subscriptionStatus": {
-        "title": "Subscription Status",
-        "description": "Your subscription status",
-        "trial": {
-          "active": "Your trial period ends <date></date>.",
-          "notification": {
-            "multipleDays": "We will notify you <highlight>1 day before</highlight> your trial ends.",
-            "lastDay": "We will notify you <highlight>when</highlight> your trial ends."
-          },
-          "ended": "Your trial period has ended!",
-          "subscribe": "Ready to continue with us?"
-        },
-        "subscription": {
-          "active": {
-            "scheduled": {
-              "pause": "Your subscription is <status>paused</status> and will stop <date></date>.",
-              "cancel": "Your subscription is <status>cancelled</status> and will stop <date></date>."
-            },
-            "nextPayment": "Your next payment is <date></date>.",
-            "notification": "We will notify you before your subscription ends."
-          },
-          "paused": {
-            "message": "Your subscription is currently paused.",
-            "button": "Resume Subscription"
-          },
-          "cancelled": {
-            "message": "Your subscription has been cancelled.",
-            "button": "Reactivate Subscription"
-          },
-          "pastDue": {
-            "message": "Your payment is past due. Please update your payment method."
-          },
-          "cancel": {
-            "button": "Cancel Subscription",
-            "dialog": {
-              "title": "Are you sure you want to cancel?",
-              "description": "This action will cancel your subscription at the end of the current billing period. You will continue to have access until then."
-            },
-            "confirmButton": "Confirm Cancellation"
-          }
-        },
-        "fullAccess": {
-          "message": "Congratulations! You have full access to all features."
-        },
-        "blocked": {
-          "message": "Weird! You are blocked from using our service."
         }
       },
       "externalServices": {
@@ -481,60 +439,53 @@
           "generic": "Weird! We couldn't sign you in. It might be your email, or something went wrong on our end.",
           "invalidCode": "The code looks incorrect. Double-check the 6 digits and try again.",
           "somethingWrong": "Something went wrong. Please request a new code and try again.",
-          "workspaceAccess": "Sorry, you do not have access to this workspace."
+          "workspaceAccess": "Sorry, you do not have access to this workspace.",
+          "rateLimited": "Too many requests. Wait a minute and try again."
         }
       }
     },
-    "pricing": {
-      "title": "Simple, transparent pricing",
-      "description": "Track and manage all your subscriptions with powerful features at an affordable price"
-    },
     "privacy": {
-      "lastUpdated": "Last updated January 17, 2025",
+      "lastUpdated": "Last updated November 15, 2026",
       "introduction": {
         "title": "Introduction",
-        "paragraph1": "We are committed to protecting your privacy and ensuring the security of your personal information.",
-        "paragraph2": "This Privacy Policy explains how we collect, use, and safeguard your data when you use our subscription and expense management service."
+        "paragraph1": "sub.idler.me stores what the app needs to work and nothing else. This page says exactly what that is.",
+        "paragraph2": "It is a small, one-person service. There is no company, no advertising, and no payment processing."
       },
       "informationWeCollect": {
         "title": "Information We Collect",
-        "description": "We collect only the necessary information required to provide you with our services:",
+        "description": "What the database holds for your account:",
         "items": {
-          "account": "Account information",
-          "subscription": "Subscription and expense management data",
-          "expense": "Expense tracking information"
+          "account": "Your email address, and the name or avatar your login provider returns.",
+          "subscription": "The subscriptions you add: names, prices, currencies, billing dates, categories, and payment method labels.",
+          "expense": "Which payments you marked as paid, and when."
         }
       },
       "howWeUse": {
-        "title": "How We Use Your Information",
-        "description": "Your information is used exclusively for:",
+        "title": "How We Use It",
+        "description": "Your data is used to:",
         "items": {
-          "providing": "Providing and maintaining our services",
-          "managing": "Managing your account and subscriptions",
-          "sending": "Sending important service updates",
-          "improving": "Improving our services through anonymous usage analysis"
+          "providing": "Show your subscriptions, reports, and payment history to you.",
+          "managing": "Send the reminders you configured, to the channels you configured.",
+          "sending": "Sign you in by email link.",
+          "improving": "Nothing else. No profiling, no ad networks, no selling."
         }
-      },
-      "paymentProcessing": {
-        "title": "Payment Processing",
-        "description": "We use <paddle>Paddle.com</paddle> as our payment processing system. When you make a payment, your payment information is collected and processed directly by Paddle. We do not store your payment details on our servers. For information about how Paddle processes your data, please refer to <privacy>Paddle's Privacy Policy</privacy>."
       },
       "dataProtection": {
         "title": "Data Protection",
-        "description": "We implement robust security measures to protect your personal information. We never share your data with third parties and maintain strict data protection protocols to prevent unauthorized access, disclosure, or misuse of your information."
+        "description": "Data lives in a Postgres database on infrastructure the operator controls. It is not shared with third parties beyond the notification channels you enable yourself. There is no encryption-at-rest promise beyond the host's defaults."
       },
       "analytics": {
-        "title": "Analytics",
-        "description": "We use a custom analytics tool to improve our services. This tool collects anonymous usage data to help us understand how users interact with our platform and enhance the user experience."
+        "title": "Cookies and Analytics",
+        "description": "No third-party analytics and no tracking scripts. The app stores your session cookie, your language choice, and your cookie preferences in your browser."
       },
       "yourRights": {
         "title": "Your Rights",
-        "description": "You have the right to:",
+        "description": "You can:",
         "items": {
-          "access": "Access your personal data",
-          "correct": "Request corrections to your data",
-          "delete": "Request deletion of your data",
-          "optOut": "Opt-out of non-essential data collection"
+          "access": "Export every record the app holds about you from the account page.",
+          "correct": "Change your settings at any time.",
+          "delete": "Ask for deletion of your account and its data.",
+          "optOut": "Decline non-essential cookies in the cookie banner."
         }
       },
       "contactUs": {
@@ -542,25 +493,11 @@
       },
       "updates": {
         "title": "Updates to This Policy",
-        "description": "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the effective date."
-      }
-    },
-    "refundPolicy": {
-      "lastUpdated": "Last updated January 17, 2025",
-      "introduction": "Bad refund policies are infuriating. You feel like the company is just trying to rip you off. We never want our customers to feel that way, so our refund policy is simple: If you're ever unhappy for any reason, just <link>contact us</link> and tell us what's up, and we'll work with you to make sure you're happy.",
-      "fullRefunds": {
-        "title": "Examples of full refunds",
-        "items": {
-          "charged": "If you were just charged for your next month of service but you meant to cancel, we're happy to refund that extra charge"
-        }
+        "description": "This page changes when the software or the deployment changes. The date at the top is the current version."
       },
-      "partialRefunds": {
-        "title": "Examples of partial refunds",
-        "items": {
-          "week": "If you were charged for a month of service but you only used it for a week, we'll refund the difference",
-          "year": "If you were charged for a year of service but you only used it for a month, we'll refund the difference",
-          "weekDuplicate": "If you were charged for a month of service but you only used it for a week, we'll refund the difference"
-        }
+      "operator": {
+        "title": "Who Runs This",
+        "description": "sub.idler.me is operated by one person on self-hosted infrastructure as a community service, not a company. There is no payment processing and no advertising."
       }
     },
     "reports": {
@@ -575,7 +512,7 @@
       }
     },
     "termsOfService": {
-      "lastUpdated": "Last updated January 17, 2025",
+      "lastUpdated": "Last updated November 15, 2026",
       "welcome": "Welcome to the {siteName} website (the \"Site\"). By accessing or using the Site, you agree to comply with and be bound by the following terms and conditions (\"Terms of Service\").",
       "overview": {
         "title": "Overview",
@@ -594,19 +531,13 @@
         },
         "paragraph3": "Please note that any violation of these Terms of Service will lead to immediate termination of your access to our Services."
       },
-      "payment": {
-        "title": "Payment",
-        "paragraph1": "If you purchase a subscription to the Site, you agree to pay the applicable fees as indicated during the checkout process.",
-        "paragraph2": "We use <paddle>Paddle.com</paddle> as our payment service provider. By making a purchase, you also agree to Paddle's <terms>Terms of Service</terms>. Paddle processes all payments and handles the related customer service inquiries.",
-        "paragraph3": "Site process refunds according to our <refund>refund policy</refund>."
-      },
       "cookies": {
         "title": "Use of Cookies",
         "description": "Site uses cookies and similar technologies (such as local storage) to track your usage of the Site and for marketing purposes. By using the Site, you consent to the use of cookies in accordance with our <privacy>Privacy Policy</privacy>."
       },
       "intellectualProperty": {
         "title": "Intellectual Property",
-        "description": "All content on the Site, including but not limited to text, graphics, logos, images, videos, and course content, is the property of the Site or its licensors and is protected by intellectual property laws. You may not reproduce, modify, distribute, or otherwise use any content on the Site without our prior written consent."
+        "description": "The software is licensed under the MIT license with a Commons Clause, copyright meceware. This deployment adds no proprietary content of its own."
       },
       "disclaimer": {
         "title": "Disclaimer",
@@ -647,6 +578,12 @@
       },
       "contactUs": {
         "description": "If you have any questions or concerns about these Terms of Service, please contact us using the <link>contact form</link> on the Site."
+      },
+      "freeService": {
+        "title": "Free Service, No Billing",
+        "paragraph1": "sub.idler.me is free to use. There are no plans, no trials, no card fields, and no refunds, because no money changes hands.",
+        "paragraph2": "The software is open source under the MIT license with a Commons Clause. You may self-host it. This instance exists for people who cannot or would rather not run their own.",
+        "paragraph3": "The service is provided as is and best effort. There is no uptime promise and no guarantee that data survives a failure. Export your data regularly and keep your own backups."
       }
     }
   },
@@ -1225,10 +1162,6 @@
         "title": "Functional Cookies",
         "description": "Enhance your experience (theme, language preferences)."
       },
-      "analytics": {
-        "title": "Analytics Cookies",
-        "description": "Help us understand how visitors interact with our website."
-      },
       "buttons": {
         "savePreferences": "Save Preferences",
         "acceptAll": "Accept All"
@@ -1240,48 +1173,8 @@
       "light": "Light",
       "system": "System"
     },
-    "pricingTable": {
-      "enjoy": {
-        "title": "Enjoy",
-        "description": "Perfect for a hassle-free experience",
-        "period": "+tax/month",
-        "features": {
-          "unlimited": "Unlimited Subscriptions",
-          "notifications": "Email & Push Notifications",
-          "reports": "Reports & Insights",
-          "support": "Premium Support",
-          "firstMonth": "First Month Free",
-          "priority": "Priority Feature Requests"
-        },
-        "button": "Get Started"
-      },
-      "selfHosted": {
-        "title": "Self Hosted",
-        "description": "Perfect for self-hosters",
-        "price": "Free",
-        "period": "forever",
-        "features": {
-          "infrastructure": "Your Infrastructure",
-          "sourceCode": "Source Code Access",
-          "community": "Community Support"
-        },
-        "button": "View on GitHub"
-      }
-    },
     "searchBar": {
       "placeholder": "Search..."
-    },
-    "subscriptionGuard": {
-      "title": "Subscription Required",
-      "description": {
-        "trialExpired": "Your trial period has expired.",
-        "cancelled": "Your subscription has been cancelled.",
-        "pastDue": "Your payment is past due.",
-        "paused": "Your subscription has been paused.",
-        "default": "You need an active subscription to access this feature."
-      },
-      "message": "Please visit your account page to manage your subscription and continue using all features.",
-      "button": "Go to Account Settings"
     }
   }
 }

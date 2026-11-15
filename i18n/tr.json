@@ -10,22 +10,10 @@
     "close": "Kapat",
     "contact": "Bize Ulaşın",
     "signIn": "Giriş Yap",
-    "pricing": "Fiyatlandırma",
-    "refundPolicy": "İade Politikası",
     "termsOfService": "Kullanım Koşulları",
     "privacyPolicy": "Gizlilik Politikası"
   },
   "notifications": {
-    "trial": {
-      "reminder": {
-        "title": "{siteName} Deneme Süresi Hatırlatması",
-        "message": "{siteName} deneme süreniz yakında sona eriyor. Tüm özelliklerden yararlanmaya devam etmek için şimdi abone olun."
-      },
-      "expired": {
-        "title": "{siteName} Deneme Süresi Sona Erdi",
-        "message": "{siteName} deneme süreniz sona erdi. Tüm özelliklerden yararlanmaya devam etmek için şimdi abone olun."
-      }
-    },
     "subscription": {
       "reminder": {
         "title": "{siteName} Ödeme Hatırlatması",
@@ -112,7 +100,7 @@
         }
       },
       "howItWorks": {
-        "title": "Wapy Nasıl Çalışır",
+        "title": "Nasıl çalışır",
         "subtitle": "Dakikalar içinde başlayın",
         "step1": {
           "title": "Kaydolun ve Giriş Yapın",
@@ -131,7 +119,7 @@
   },
   "pages": {
     "notFound": {
-      "meta" : {
+      "meta": {
         "title": "Sayfa Bulunamadı",
         "description": "Aradığınız sayfa mevcut değil."
       },
@@ -171,7 +159,7 @@
       }
     },
     "account": {
-      "meta" : {
+      "meta": {
         "title": "Hesap Ayarları",
         "description": "Hesap ayarlarınızı ve tercihlerinizi yönetin."
       },
@@ -247,54 +235,6 @@
           "description": "Bu ödeme yöntemini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
           "success": "Ödeme yöntemi başarıyla silindi.",
           "error": "Ödeme yöntemi silinemedi!"
-        }
-      },
-      "subscriptionStatus": {
-        "title": "Abonelik Durumu",
-        "description": "Abonelik durumunuz",
-        "trial": {
-          "active": "Deneme süreniz <date></date> tarihinde sona eriyor.",
-          "notification": {
-            "multipleDays": "Deneme süreniz bitmeden <highlight>1 gün önce</highlight> sizi bilgilendireceğiz.",
-            "lastDay": "Deneme süreniz bittiğinde sizi bilgilendireceğiz."
-          },
-          "ended": "Deneme süreniz sona erdi!",
-          "subscribe": "Bizimle devam etmeye hazır mısınız?"
-        },
-        "subscription": {
-          "active": {
-            "scheduled": {
-              "pause": "Aboneliğiniz <status>duraklatıldı</status> ve <date></date> tarihinde sona erecek.",
-              "cancel": "Aboneliğiniz <status>iptal edildi</status> ve <date></date> tarihinde sona erecek."
-            },
-            "nextPayment": "Bir sonraki ödemeniz <date></date> tarihinde.",
-            "notification": "Aboneliğiniz bitmeden önce sizi bilgilendireceğiz."
-          },
-          "paused": {
-            "message": "Aboneliğiniz şu anda duraklatılmış durumda.",
-            "button": "Aboneliği Devam Ettir"
-          },
-          "cancelled": {
-            "message": "Aboneliğiniz iptal edildi.",
-            "button": "Aboneliği Yeniden Etkinleştir"
-          },
-          "pastDue": {
-            "message": "Ödemeniz gecikmiş durumda. Lütfen ödeme yönteminizi güncelleyin."
-          },
-          "cancel": {
-            "button": "Aboneliği İptal Et",
-            "dialog": {
-              "title": "İptal etmek istediğinizden emin misiniz?",
-              "description": "Bu işlem aboneliğinizi mevcut faturalama döneminin sonunda iptal edecektir. O zamana kadar erişiminiz devam edecektir."
-            },
-            "confirmButton": "İptali Onayla"
-          }
-        },
-        "fullAccess": {
-          "message": "Tebrikler! Tüm özelliklere tam erişiminiz var."
-        },
-        "blocked": {
-          "message": "Garip! Hizmetimizi kullanmanız engellenmiş."
         }
       },
       "externalServices": {
@@ -485,10 +425,6 @@
         }
       }
     },
-    "pricing": {
-      "title": "Basit, şeffaf fiyatlandırma",
-      "description": "Uygun fiyatlarla güçlü özelliklerle tüm aboneliklerinizi takip edin ve yönetin"
-    },
     "privacy": {
       "lastUpdated": "Son güncelleme 17 Ocak 2025",
       "introduction": {
@@ -515,10 +451,6 @@
           "improving": "Anonim kullanım analizi yoluyla hizmetlerimizi geliştirmek"
         }
       },
-      "paymentProcessing": {
-        "title": "Ödeme İşleme",
-        "description": "Ödeme işleme sistemimiz olarak <paddle>Paddle.com</paddle> kullanıyoruz. Bir ödeme yaptığınızda, ödeme bilgileriniz doğrudan Paddle tarafından toplanır ve işlenir. Ödeme detaylarınızı sunucularımızda saklamıyoruz. Paddle'ın verilerinizi nasıl işlediği hakkında bilgi için lütfen <privacy>Paddle'ın Gizlilik Politikası</privacy>'na bakın."
-      },
       "dataProtection": {
         "title": "Veri Koruma",
         "description": "Kişisel bilgilerinizi korumak için güçlü güvenlik önlemleri uyguluyoruz. Verilerinizi asla üçüncü taraflarla paylaşmıyoruz ve bilgilerinizin yetkisiz erişim, ifşa veya kötüye kullanımını önlemek için katı veri koruma protokolleri uyguluyoruz."
@@ -543,24 +475,6 @@
       "updates": {
         "title": "Bu Politikadaki Güncellemeler",
         "description": "Bu Gizlilik Politikasını zaman zaman güncelleyebiliriz. Yeni Gizlilik Politikasını bu sayfada yayınlayarak ve yürürlük tarihini güncelleyerek sizi değişikliklerden haberdar edeceğiz."
-      }
-    },
-    "refundPolicy": {
-      "lastUpdated": "Son güncelleme 17 Ocak 2025",
-      "introduction": "Kötü iade politikaları sinir bozucudur. Şirketin sizi dolandırmaya çalıştığını hissedersiniz. Müşterilerimizin böyle hissetmesini asla istemeyiz, bu yüzden iade politikamız basittir: Herhangi bir nedenle memnun değilseniz, <link>bizimle iletişime geçin</link> ve ne olduğunu söyleyin, memnun olmanızı sağlamak için sizinle birlikte çalışacağız.",
-      "fullRefunds": {
-        "title": "Tam iade örnekleri",
-        "items": {
-          "charged": "Bir sonraki ay hizmetiniz için ücretlendirildiyseniz ancak iptal etmek istediyseniz, bu ekstra ücreti iade etmekten mutluluk duyarız"
-        }
-      },
-      "partialRefunds": {
-        "title": "Kısmi iade örnekleri",
-        "items": {
-          "week": "Bir aylık hizmet için ücretlendirildiyseniz ancak sadece bir hafta kullandıysanız, farkı iade edeceğiz",
-          "year": "Bir yıllık hizmet için ücretlendirildiyseniz ancak sadece bir ay kullandıysanız, farkı iade edeceğiz",
-          "weekDuplicate": "Bir aylık hizmet için ücretlendirildiyseniz ancak sadece bir hafta kullandıysanız, farkı iade edeceğiz"
-        }
       }
     },
     "reports": {
@@ -593,12 +507,6 @@
           "malicious": "Kötü amaçlı kod, virüs veya diğer zararlı içerikleri iletemezsiniz"
         },
         "paragraph3": "Lütfen bu Kullanım Koşullarının herhangi bir ihlalinin Hizmetlerimize erişiminizin derhal sonlandırılmasına yol açacağını unutmayın."
-      },
-      "payment": {
-        "title": "Ödeme",
-        "paragraph1": "Siteye bir abonelik satın alırsanız, ödeme işlemi sırasında belirtilen geçerli ücretleri ödemeyi kabul edersiniz.",
-        "paragraph2": "Ödeme hizmeti sağlayıcımız olarak <paddle>Paddle.com</paddle> kullanıyoruz. Bir satın alma işlemi yaparak, Paddle'ın <terms>Kullanım Koşulları</terms>'nı da kabul etmiş olursunuz. Paddle tüm ödemeleri işler ve ilgili müşteri hizmetleri sorgularını yönetir.",
-        "paragraph3": "Site, <refund>iade politikamıza</refund> göre iadeleri işler."
       },
       "cookies": {
         "title": "Çerez Kullanımı",
@@ -1225,10 +1133,6 @@
         "title": "Fonksiyonel Çerezler",
         "description": "Deneyiminizi geliştirir (tema, dil tercihleri)."
       },
-      "analytics": {
-        "title": "Analitik Çerezler",
-        "description": "Ziyaretçilerin web sitemizle nasıl etkileşime girdiğini anlamamıza yardımcı olur."
-      },
       "buttons": {
         "savePreferences": "Tercihleri Kaydet",
         "acceptAll": "Tümünü Kabul Et"
@@ -1240,48 +1144,8 @@
       "light": "Açık",
       "system": "Sistem"
     },
-    "pricingTable": {
-      "enjoy": {
-        "title": "Keyif",
-        "description": "Sorunsuz bir deneyim için mükemmel",
-        "period": "+vergi/ay",
-        "features": {
-          "unlimited": "Sınırsız Abonelik",
-          "notifications": "E-posta ve Push Bildirimleri",
-          "reports": "Raporlar ve İçgörüler",
-          "support": "Premium Destek",
-          "firstMonth": "İlk Ay Ücretsiz",
-          "priority": "Öncelikli Özellik İstekleri"
-        },
-        "button": "Başlayın"
-      },
-      "selfHosted": {
-        "title": "Kendi Sunucunuzda",
-        "description": "Kendi sunucusunda barındırmak isteyenler için mükemmel",
-        "price": "Ücretsiz",
-        "period": "sonsuza kadar",
-        "features": {
-          "infrastructure": "Kendi Altyapınız",
-          "sourceCode": "Kaynak Koda Erişim",
-          "community": "Topluluk Desteği"
-        },
-        "button": "GitHub'da Görüntüle"
-      }
-    },
     "searchBar": {
       "placeholder": "Ara..."
-    },
-    "subscriptionGuard": {
-      "title": "Abonelik Gerekli",
-      "description": {
-        "trialExpired": "Deneme süreniz sona erdi.",
-        "cancelled": "Aboneliğiniz iptal edildi.",
-        "pastDue": "Ödemeniz gecikmiş durumda.",
-        "paused": "Aboneliğiniz duraklatıldı.",
-        "default": "Bu özelliğe erişmek için aktif bir aboneliğe ihtiyacınız var."
-      },
-      "message": "Aboneliğinizi yönetmek ve tüm özellikleri kullanmaya devam etmek için lütfen hesap sayfanızı ziyaret edin.",
-      "button": "Hesap Ayarlarına Git"
     }
   }
 }

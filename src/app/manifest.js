@@ -15,8 +15,8 @@ export default function manifest() {
       { src: '/web-app-manifest-192x192.png', type: 'image/png', sizes: '192x192', purpose: 'maskable' },
       { src: '/web-app-manifest-512x512.png', type: 'image/png', sizes: '512x512', purpose: 'maskable' },
     ],
-    theme_color: '#ffffff',
-    background_color: '#ffffff',
+    theme_color: '#0b0c0b',
+    background_color: '#0b0c0b',
     display: 'standalone',
   };
 }

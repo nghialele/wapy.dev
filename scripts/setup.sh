@@ -23,10 +23,10 @@ if [ ! -f .env ]; then
 fi
 
 # Generate and update secrets only if they're empty
-update_env_var "POSTGRES_DB" "wapydev" ".env"
-update_env_var "POSTGRES_USER" "wapydev" ".env"
+update_env_var "POSTGRES_DB" "subidler" ".env"
+update_env_var "POSTGRES_USER" "subidler" ".env"
 update_env_var "POSTGRES_PASSWORD" "$(openssl rand -base64 32)" ".env"
-update_env_var "DATABASE_URL" "\"postgresql://\${POSTGRES_USER}:\${POSTGRES_PASSWORD}@wapydev-db:5432/\${POSTGRES_DB}?schema=public\"" ".env"
+update_env_var "DATABASE_URL" "\"postgresql://\${POSTGRES_USER}:\${POSTGRES_PASSWORD}@subidler-db:5432/\${POSTGRES_DB}?schema=public\"" ".env"
 update_env_var "AUTH_SECRET" "$(openssl rand -base64 32)" ".env"
 update_env_var "SUBSCRIPTION_JWT_SECRET" "$(openssl rand -base64 32)" ".env"
 

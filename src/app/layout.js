@@ -2,7 +2,7 @@
 import './globals.css';
 
 // Imports
-import { Inter } from 'next/font/google';
+import { Inter, Newsreader, JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 import { AuthProviderServer } from '@/lib/auth-server';
@@ -17,7 +17,9 @@ import { PushNotificationToggle } from '@/components/notifications/notification-
 import { AddToHomeScreen } from '@/components/add-to-home-screen';
 
 // Fonts
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const newsreader = Newsreader({ subsets: ['latin'], variable: '--font-newsreader', display: 'swap' });
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains-mono', display: 'swap' });
 
 // Metadata
 export const metadata = {
@@ -74,7 +76,7 @@ export const metadata = {
       { url: '/icons/icon-256.png', sizes: '256x256', type: 'image/png' },
       { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: '/favicon.svg',
     apple: '/apple-touch-icon.png',
   },
   manifest: '/manifest.webmanifest',
@@ -83,8 +85,8 @@ export const metadata = {
 // Viewport
 export const viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
-    { media: '(prefers-color-scheme: dark)', color: '#09090B' },
+    { media: '(prefers-color-scheme: light)', color: '#FFFDF8' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0c0b' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -102,21 +104,7 @@ const jsonLd = {
   'offers': [
     {
       '@type': 'Offer',
-      'name': 'Premium Plan',
-      'category': 'SubscriptionPlan',
-      'price': '1.50',
-      'priceCurrency': 'EUR',
-      'availability': 'https://schema.org/InStock',
-      'priceValidUntil': `${(new Date()).getFullYear()}-12-31`,
-      'seller': {
-        '@type': 'Organization',
-        'name': siteConfig.author.name,
-        'url': siteConfig.author.url
-      }
-    },
-    {
-      '@type': 'Offer',
-      'name': 'Self-Hosted Edition',
+      'name': 'Free',
       'price': '0',
       'priceCurrency': 'EUR',
       'availability': 'https://schema.org/InStock',
@@ -138,19 +126,11 @@ const jsonLd = {
     'Webhook notifications',
   ],
   'screenshot': `${siteConfig.url}/images/og.png`,
-  'softwareVersion': '1.0',
+  'softwareVersion': '2.2.0',
   'datePublished': '2025-02-25',
   'keywords': siteConfig.keywords,
-  'author': {
-    '@type': 'Organization',
-    'name': siteConfig.author.name,
-    'url': siteConfig.author.url
-  },
-  'provider': {
-    '@type': 'Organization',
-    'name': siteConfig.author.name,
-    'url': siteConfig.author.url
-  }
+  'author': siteConfig.author,
+  'provider': siteConfig.author
 };
 
 // Root Layout
@@ -158,14 +138,14 @@ export default async function RootLayout({ children }) {
   const locale = await getLocale();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className={`${inter.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script
           type='application/ld+json'
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className='font-sans antialiased'>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           <AuthProviderServer>
             <NextIntlClientProvider>

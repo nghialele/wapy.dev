@@ -58,46 +58,10 @@ export const TermsOfService = () => {
           </section>
 
           <section className='space-y-4'>
-            <h2 className='text-2xl font-semibold'>{t('payment.title')}</h2>
-            <p>
-              {t('payment.paragraph1')}
-            </p>
-            <p>
-              {t.rich('payment.paragraph2', {
-                paddle: (chunks) => (
-                  <a
-                    href='https://www.paddle.com'
-                    className='underline underline-offset-4 focus:outline-hidden'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {chunks}
-                  </a>
-                ),
-                terms: (chunks) => (
-                  <a
-                    href='https://www.paddle.com/legal/terms'
-                    className='underline underline-offset-4 focus:outline-hidden'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {chunks}
-                  </a>
-                ),
-              })}
-            </p>
-            <p>
-              {t.rich('payment.paragraph3', {
-                refund: (chunks) => (
-                  <Link
-                    href='/refund-policy'
-                    className='font-medium underline underline-offset-4 focus:outline-hidden'
-                  >
-                    {chunks}
-                  </Link>
-                ),
-              })}
-            </p>
+            <h2 className='text-2xl font-semibold'>{t('freeService.title')}</h2>
+            <p>{t('freeService.paragraph1')}</p>
+            <p>{t('freeService.paragraph2')}</p>
+            <p>{t('freeService.paragraph3')}</p>
           </section>
 
           <section className='space-y-4'>

@@ -6,12 +6,11 @@ import { useAuthServer } from '@/lib/auth-server';
 import { withAuth } from '@/lib/with-auth';
 import { SubscriptionGet, SubscriptionGetPastPaymentsStats } from '@/components/subscriptions/actions';
 import { SubscriptionView } from '@/components/subscriptions/view';
-import { paddleGetSession } from '@/lib/paddle/status';
-import { SubscriptionGuard } from '@/components/subscription-guard';
+import { userGetSession } from '@/lib/user-session';
 
 const PageSubscriptionView = async ({ params }) => {
   const slug = (await params).slug;
-  const {session, paddleStatus} = await paddleGetSession();
+  const {session} = await userGetSession();
 
   const subscription = await SubscriptionGet(slug, session?.user?.id);
   if (!subscription) {
@@ -20,11 +19,9 @@ const PageSubscriptionView = async ({ params }) => {
   subscription.pastPayments = await SubscriptionGetPastPaymentsStats(subscription.id, session?.user?.id);
 
   return (
-    <SubscriptionGuard paddleStatus={paddleStatus}>
       <div className='container flex flex-col items-center justify-center gap-6'>
         <SubscriptionView subscription={subscription} externalServices={session?.user?.externalServices || {}} />
       </div>
-    </SubscriptionGuard>
   );
 };
 

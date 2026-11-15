@@ -34,11 +34,11 @@ export const SendNtfy = async (ntfy, data) => {
       {
         method: 'POST',
         headers: {
-          'Icon': `https://www.wapy.dev/icons/icon-192.png`,
+          'Icon': `${siteConfig.url}/icons/icon-192.png`,
           ...(ntfy?.token ? { 'Authorization': `Bearer ${ntfy.token}` } : {}),
         },
         body: JSON.stringify({
-          topic: ntfy?.topic || 'wapy-dev',
+          topic: ntfy?.topic || 'sub-idler-me',
           tags: [siteConfig.name, 'subscription-reminder'],
           priority: 3,
           click: siteConfig.url,
@@ -63,15 +63,15 @@ export const SendDiscord = async (discord, data) => {
 
   const payload = {
     username: siteConfig.name,
-    avatar_url: `https://www.wapy.dev/icons/icon-192.png`,
+    avatar_url: `${siteConfig.url}/icons/icon-192.png`,
     content: `💡 **${translations.header}**`,
     embeds: [
       {
         title: data.title,
         description: data.message,
-        color: 121256,
+        color: 1673503,
         thumbnail: {
-          url: `https://www.wapy.dev/icons/icon-192.png`,
+          url: `${siteConfig.url}/icons/icon-192.png`,
         },
         provider: {
           name: siteConfig.name,
@@ -128,7 +128,7 @@ export const SendSlack = async (slack, data) => {
         },
         accessory: {
           type: 'image',
-          image_url: `https://www.wapy.dev/icons/icon-192.png`,
+          image_url: `${siteConfig.url}/icons/icon-192.png`,
           alt_text: siteConfig.name,
         },
       },

@@ -554,7 +554,7 @@ export const UserTestWebhook = async (config) => {
       event: 'test-notification',
       title: t('title', { siteName: siteConfig.name }),
       message: t('message', { siteName: siteConfig.name, service: 'webhook' }),
-      tags: ['wapy.dev'],
+      tags: ['sub.idler.me'],
       timestamp: new Date().toISOString(),
     }
   );

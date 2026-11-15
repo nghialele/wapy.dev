@@ -3,18 +3,15 @@
 import { getTranslations } from 'next-intl/server';
 import { withAuth } from '@/lib/with-auth';
 import { SubscriptionEdit } from '@/components/subscriptions/edit';
-import { paddleGetSession } from '@/lib/paddle/status';
-import { SubscriptionGuard } from '@/components/subscription-guard';
+import { userGetSession } from '@/lib/user-session';
 
 const PageNewSubscription = async () => {
-  const { user, paddleStatus } = await paddleGetSession();
+  const { user } = await userGetSession();
 
   return (
-    <SubscriptionGuard paddleStatus={paddleStatus}>
       <div className='container flex flex-col items-center justify-center gap-6 text-center'>
         <SubscriptionEdit user={user} />
       </div>
-    </SubscriptionGuard>
   )
 }
 

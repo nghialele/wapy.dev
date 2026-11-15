@@ -77,7 +77,7 @@ export function ContactForm() {
       </div>
       {isSubmitted ? (
         <div className='rounded-lg border bg-card p-6 shadow-xs text-center space-y-4'>
-          <Icons.check className='mx-auto h-12 w-12 text-green-500' />
+          <Icons.check className='mx-auto h-12 w-12 text-primary' />
           <h2 className='text-2xl font-semibold'>{t('success.title')}</h2>
           <p className='text-muted-foreground'>
             {t('success.message1')}

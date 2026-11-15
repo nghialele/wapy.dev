@@ -32,7 +32,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, signInOTPSchema } from './schema';
-import { signInAction, signInOTPAction } from './action';
+import { signInOTPAction } from './action';
 
 const SignInOTP = ({ email }) => {
   const t = useTranslations('pages.login');
@@ -126,7 +126,7 @@ const SignInSendAgain = ({ email, onClick }) => {
       <CardHeader>
         <div className='flex flex-col items-center gap-4'>
           <div className='rounded-full bg-green-100 dark:bg-green-900/30 p-3'>
-            <Icons.check className='h-8 w-8 text-green-600 dark:text-green-400' />
+            <Icons.check className='h-8 w-8 text-primary' />
           </div>
           <CardTitle className='text-2xl'>{t('title')}</CardTitle>
           <CardDescription className='text-base'>
@@ -173,16 +173,14 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
   const onSubmit = async (data) => {
     setLoginMethod('email');
     try {
-      const result = await signInAction(data);
-      if (!result || result?.error) {
-        if (result?.error === 'AccessDenied') {
-          toast.error(t('toast.error.accessDenied'));
-        } else {
-          toast.error(t('toast.error.generic'));
-        }
-      } else {
-        setSuccess(true);
+      const { error } = await signIn.magicLink({ email: data.email, callbackURL: '/' });
+      if (error) {
+        if (error.status === 429) toast.error(t('toast.error.rateLimited'));
+        else if (error.status === 403) toast.error(t('toast.error.accessDenied'));
+        else toast.error(t('toast.error.generic'));
+        return;
       }
+      setSuccess(true);
     } finally {
       setLoginMethod(null);
     }
@@ -290,7 +288,7 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
               : (
                 genericAuthProvider.toLowerCase() === 'keycloak' ? <Icons.keycloak className='mr-2' /> :
                 genericAuthProvider.toLowerCase() === 'authentik' ? <Icons.authentik className='mr-2' /> :
-                <Icons.keyRound className='mr-2 text-green-600' />
+                <Icons.keyRound className='mr-2 text-primary' />
               )
             }
             {t('form.loginWithProvider', { provider: genericAuthProvider.replace(/\b\w/g, l => l.toUpperCase()) })}

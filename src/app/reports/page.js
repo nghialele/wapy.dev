@@ -4,11 +4,10 @@ import { getTranslations } from 'next-intl/server';
 import { withAuth } from '@/lib/with-auth';
 import { prisma } from '@/lib/prisma';
 import { SubscriptionReports } from '@/components/subscriptions/reports';
-import { paddleGetSession } from '@/lib/paddle/status';
-import { SubscriptionGuard } from '@/components/subscription-guard';
+import { userGetSession } from '@/lib/user-session';
 
 const PageReports = async () => {
-  const { session, paddleStatus } = await paddleGetSession();
+  const { session } = await userGetSession();
 
   const subscriptions = await prisma.subscription.findMany({
     where: {
@@ -42,11 +41,9 @@ const PageReports = async () => {
   });
 
   return (
-    <SubscriptionGuard paddleStatus={paddleStatus}>
       <div className='flex flex-col items-center w-full max-w-3xl gap-4'>
         <SubscriptionReports subscriptions={subscriptions} />
       </div>
-    </SubscriptionGuard>
   )
 }
 

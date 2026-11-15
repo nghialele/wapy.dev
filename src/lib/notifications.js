@@ -142,7 +142,7 @@ export const UserSubscriptionSendEmail = async (subscription, title, message, ma
                   <div style="max-width: 400px; color: #999999; text-align: center;">
                     <p style="padding-bottom: 0.5rem;">${translations.madeBy || `Made with ♥ by <a href="${siteConfig.url}" target="_blank">${siteConfig.name}</a>`}</p>
                     <div style="text-align: center;">
-                      <img src="${siteConfig.url}/icon.png" alt="${siteConfig.from}" style="width: 96px;">
+                      <img src="${siteConfig.url}/icons/icon-192.png" alt="${siteConfig.from}" style="width: 96px;">
                     </div>
                   </div>
                 </td>

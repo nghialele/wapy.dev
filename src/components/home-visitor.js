@@ -1,9 +1,10 @@
 'use client'
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Icons } from '@/components/icons';
-import { PricingTable } from '@/components/pricing-table';
+import { Button } from '@/components/ui/button';
 import { siteConfig } from '@/components/config';
 
 export const HomeVisitor = () => {
@@ -12,9 +13,7 @@ export const HomeVisitor = () => {
     <div className='flex flex-col grow mx-auto gap-24 w-full justify-center items-center'>
       {/* Hero Section */}
       <div className='flex flex-col items-center text-center gap-6'>
-        <div className='inline-block px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4'>
-          ✨ {t('hero.badge')}
-        </div>
+        <p className='eyebrow'>{t('hero.badge')}</p>
         <h1 className='text-3xl md:text-6xl font-bold tracking-tight'>
           {t('hero.title')}
         </h1>
@@ -24,8 +23,29 @@ export const HomeVisitor = () => {
         <h3 className='text-xl text-muted-foreground-light font-semibold max-w-4xl'>
           {t('hero.tagline')}
         </h3>
-        <div className='w-full max-w-4xl'>
-          <PricingTable />
+        <div className='w-full max-w-3xl rounded-lg border bg-card p-6 text-left sm:p-8'>
+          <p className='eyebrow'>{t('free.eyebrow')}</p>
+          <h2 className='mt-4 text-2xl font-bold'>{t('free.title')}</h2>
+          <p className='mt-3 text-muted-foreground'>{t('free.description')}</p>
+          <div className='mt-4 flex items-baseline gap-2'>
+            <span className='text-4xl font-bold'>{t('free.price')}</span>
+            <span className='text-sm text-muted-foreground'>{t('free.period')}</span>
+          </div>
+          <ul className='mt-6 grid gap-2 text-sm sm:grid-cols-2'>
+            {['unlimited', 'notifications', 'reports', 'export', 'noAds', 'bestEffort'].map((key) => (
+              <li key={key} className='flex items-center gap-2'>
+                <Icons.check className='size-4 shrink-0 text-primary' />
+                <span>{t(`free.features.${key}`)}</span>
+              </li>
+            ))}
+          </ul>
+          <div className='mt-6 flex flex-wrap items-center gap-3'>
+            <Button asChild><Link href='/login'>{t('free.button')}</Link></Button>
+            <Button variant='outline' asChild>
+              <Link href={siteConfig.links.github} target='_blank' rel='noopener noreferrer'>{t('free.selfHostButton')}</Link>
+            </Button>
+          </div>
+          <p className='mt-4 text-sm text-muted-foreground'>{t('free.selfHostNote')}</p>
         </div>
         <Image src='/images/banner.png' alt={t('hero.imageAlt')} width={960} height={600} />
       </div>

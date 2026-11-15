@@ -1,34 +1,7 @@
 'use server';
 
-import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { signInSchema, signInOTPSchema } from './schema';
-
-export const signInAction = async (data) => {
-  if (!data || !data?.email) {
-    return null;
-  }
-
-  const parsedData = signInSchema.safeParse(data);
-  if (!parsedData?.success) {
-    return null;
-  }
-
-  try {
-    return await auth.api.signInMagicLink( {
-      body: {
-        email: parsedData.data.email,
-        callbackURL : '/',
-      },
-      headers: await headers(),
-    } );
-  } catch (error) {
-    if (error.type === 'AccessDenied') {
-      return { error: error.type };
-    }
-    return null;
-  }
-}
 
 export const signInOTPAction = async (data) => {
   const parsedCode = signInOTPSchema.safeParse(data);

@@ -19,7 +19,7 @@ const html = ({ url, token }) => {
               <div style="margin: 1rem 0;">
                 <p>Click the link below to sign in.</p>
                 <p>
-                  <a href="${url}" target="_blank" style="padding: 0.75rem 1.25rem; border-radius: 0.25rem; color: #FFF; background: #16A34A; display: inline-block; margin: 0.5rem 0; text-decoration: none;">
+                  <a href="${url}" target="_blank" style="padding: 0.75rem 1.25rem; border-radius: 0.25rem; color: #0b0c0b; background: #ff5b1f; display: inline-block; margin: 0.5rem 0; text-decoration: none;">
                     Sign in to your account
                   </a>
                 </p>
@@ -37,7 +37,7 @@ const html = ({ url, token }) => {
             <div style="max-width: 400px; color: #999999; text-align: center;">
               <p style="padding-bottom: 0.5rem;">Made with ♥ by <a href="${siteConfig.url}" target="_blank">${siteConfig.name}</a></p>
               <div style="text-align: center;">
-                <img src="${siteConfig.url}/icon.png" alt="${siteConfig.from}" style="width: 96px;">
+                <img src="${siteConfig.url}/icons/icon-192.png" alt="${siteConfig.from}" style="width: 96px;">
               </div>
             </div>
           </td>
@@ -130,6 +130,7 @@ export const auth = betterAuth({
       disableSignUp: process?.env?.DISABLE_USER_REGISTRATION === 'true',
       expiresIn: 20 * 60, // 20 minutes
       async sendVerificationOTP({ email, otp, type }) {
+        // OTP rides the magic-link email; this hook is intentionally empty.
         return;
       },
     }),
@@ -151,7 +152,7 @@ export const auth = betterAuth({
     ),
   ],
   advanced: {
-    cookiePrefix: 'wapy-dev',
+    cookiePrefix: 'sub-idler-me',
     database: {
       generateId: false
     },

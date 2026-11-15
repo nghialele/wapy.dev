@@ -2,11 +2,8 @@
 
 import { useState, useCallback } from 'react';
 import { toast } from 'sonner';
-import { format, differenceInHours, differenceInDays } from 'date-fns';
-import { useScrollLock } from 'usehooks-ts';
-import { useTheme } from 'next-themes';
-import { initializePaddle } from '@paddle/paddle-js';
-import { useTranslations, useFormatter, useNow } from 'next-intl';
+import { format } from 'date-fns';
+import { useTranslations, useFormatter } from 'next-intl';
 import { Label } from '@/components/ui/label';
 import {
   Card,
@@ -70,8 +67,6 @@ import { CurrencyFieldManager } from '@/components/subscriptions/form/field-curr
 import { TimezoneFieldManager } from '@/components/subscriptions/form/field-timezone';
 import { NotificationsFieldManager } from '@/components/subscriptions/form/field-notifications';
 import { cn } from '@/lib/utils';
-import { PADDLE_STATUS_MAP } from '@/lib/paddle/enum';
-import { paddleCheckSubscriptionCheckout, paddleCancelSubscription, paddleResumeSubscription } from '@/lib/paddle/actions';
 import { LogoIcon, IconPicker } from '@/components/ui/icon-picker';
 
 const TimezoneManager = ({ user }) => {
@@ -885,483 +880,11 @@ const PaymentMethodManager = ({ user }) => {
   );
 };
 
-const PaymentStatusDate = ({date}) => {
-  const formatter = useFormatter();
-  const now = useNow({
-    updateInterval: 1000 * 30,
-  });
-
-  return (
-    <div className='inline-flex items-center gap-1'>
-      <Popover>
-        <PopoverTrigger asChild>
-          <span className='inline-flex items-center cursor-pointer'>
-            {formatter.relativeTime(date, {
-              now: now,
-              unit: Math.abs(differenceInDays(date, now)) >= 1
-                ? 'day'
-                : Math.abs(differenceInHours(date, now)) >= 1
-                ? 'hour'
-                : undefined,
-            })}
-          </span>
-        </PopoverTrigger>
-        <PopoverContent className='bg-foreground text-background text-sm w-auto max-w-xl wrap-break-word px-4 py-1'>
-          {formatter.dateTime(date, 'long', {
-            timeZone : Intl.DateTimeFormat().resolvedOptions().timeZone,
-          })}
-        </PopoverContent>
-      </Popover>
-    </div>
-  );
-};
-
-const PaymentStatusCard = ({ loading = false, status, children }) => {
-  const t = useTranslations('pages.account.subscriptionStatus');
-
-  return (
-    <Card>
-      <CardHeader>
-        <div className='flex items-start justify-between gap-2'>
-          <div className='flex flex-col gap-1 text-left grow overflow-hidden'>
-            <CardTitle>
-              {t('title')}
-            </CardTitle>
-            <CardDescription>
-              {t('description')}
-            </CardDescription>
-          </div>
-          {loading && (
-            <Skeleton className='size-10 rounded-full' />
-          )}
-          {!loading && (
-            <div className={cn(
-              'shrink-0 size-10 rounded-full flex items-center justify-center',
-            {
-              'bg-green-500/90': status === 'green',
-              'bg-orange-500/90': status === 'orange',
-              'bg-red-500/90': status === 'red',
-            },
-          )}>
-            {status === 'green' && (
-              <Icons.check className='size-5 text-white' />
-            )}
-            {status === 'orange' && (
-              <Icons.triangleAlert className='size-5 text-white' />
-            )}
-            {status === 'red' && (
-              <Icons.x className='size-5 text-white' />
-              )}
-            </div>
-          )}
-        </div>
-      </CardHeader>
-      { loading ? (
-        <CardContent className='flex flex-col gap-2'>
-          <Skeleton className='h-4 w-36' />
-          <Skeleton className='h-4 w-48' />
-        </CardContent>
-      ) : children }
-    </Card>
-  );
-};
-
-const PaymentStatusTrial = ({ user, paddleStatus }) => {
-  const t = useTranslations('pages.account.subscriptionStatus.trial');
-  const { resolvedTheme } = useTheme();
-  const { lock, unlock } = useScrollLock({
-    autoLock: false,
-  });
-  const [paddle, setPaddle] = useState(null);
-  const [disabled, setDisabled] = useState(false);
-
-  const subscribeUser = useCallback(() => {
-    const paddleCheckout = (paddle) => {
-      lock();
-      setDisabled(true);
-      paddle?.Checkout.open({
-        settings: {
-          displayMode: 'overlay',
-          theme: resolvedTheme === 'dark' ? 'dark' : 'light',
-          allowLogout: !user.email,
-          // variant: 'one-page',
-        },
-        items: [{
-          priceId: paddleStatus.priceId,
-          quantity: 1
-        }],
-        customer: {
-          email: user.email, // TODO: set customer if there is any
-        },
-      });
-    };
-
-    if (!paddle?.Initialized) {
-      initializePaddle({
-        token: paddleStatus.clientToken,
-        environment: paddleStatus.environment,
-        eventCallback: (event) => {
-          if (event.data && event.name) {
-            if (event.name === 'checkout.closed') {
-              if (event.data.status === 'completed') {
-                paddleCheckSubscriptionCheckout(event.data.customer.id).then(() => {
-                  setDisabled(false);
-                  unlock();
-                });
-              } else {
-                setDisabled(false);
-                unlock();
-              }
-            }
-          }
-        },
-      }).then(async paddle => {
-        if (paddle) {
-          setPaddle(paddle);
-          paddleCheckout(paddle);
-        }
-      });
-    } else {
-      paddleCheckout(paddle);
-    }
-  }, [paddleStatus, paddle, setPaddle, lock, unlock, user?.email, resolvedTheme, disabled, setDisabled]);
-
-  const isTrialEnding = paddleStatus.remainingDays <= 7;
-  const isActive = paddleStatus.status === PADDLE_STATUS_MAP.trialActive;
-  const status = isActive
-    ? isTrialEnding ? 'orange' : 'green'
-    : 'red';
-
-  return (
-    <PaymentStatusCard status={status}>
-      <CardContent className='flex flex-col gap-1'>
-        {isActive ? (
-          <>
-            <div className='text-sm text-muted-foreground'>
-              {t.rich('active', {
-                date: () => (
-                  <span className={cn(
-                    'text-base font-medium',
-                    {
-                      'text-green-600 dark:text-green-500': status === 'green',
-                      'text-orange-500': status === 'orange',
-                      'text-red-500': status === 'red',
-                    },
-                  )}>
-                    <PaymentStatusDate date={paddleStatus.nextPaymentAt} />
-                  </span>
-                ),
-              })}
-            </div>
-            <div className='text-sm text-muted-foreground'>
-              {t.rich(paddleStatus.remainingDays > 1 ? 'notification.multipleDays' : 'notification.lastDay', {
-                highlight: (chunks) => <span className='text-foreground'>{chunks}</span>
-              })}
-            </div>
-          </>
-        ) : (
-          <div className='text-base font-medium text-red-500'>
-            {t('ended')}
-          </div>
-        )}
-      </CardContent>
-      <CardFooter className='flex flex-col items-start gap-2'>
-        <Button size='lg' onClick={subscribeUser} disabled={disabled}>
-          {disabled ? (
-            <Icons.spinner className='animate-spin' />
-          ) : (
-            <Icons.sparkles />
-          )}
-          {t('subscribe')}
-        </Button>
-      </CardFooter>
-    </PaymentStatusCard>
-  );
-};
-
-const PaymentStatusSubscription = ({ user, paddleStatus }) => {
-  const t = useTranslations('pages.account.subscriptionStatus.subscription');
-  const tCommon = useTranslations('common');
-
-  const { resolvedTheme } = useTheme();
-  const { lock, unlock } = useScrollLock({
-    autoLock: false,
-  });
-  const [paddle, setPaddle] = useState(null);
-  const [disabled, setDisabled] = useState(false);
-  const [showCancelDialog, setShowCancelDialog] = useState(false);
-
-  const cancelSubscription = useCallback(async () => {
-    setDisabled(true);
-    paddleCancelSubscription(user.paddleUserDetails?.subId).then(() => {
-      setDisabled(false);
-      setShowCancelDialog(false);
-    });
-  }, [user.paddleUserDetails?.subId, setDisabled, setShowCancelDialog]);
-
-  const resumeSubscription = useCallback(async () => {
-    setDisabled(true);
-    paddleResumeSubscription(user.paddleUserDetails?.subId).then(() => {
-      setDisabled(false);
-    });
-  }, [user.paddleUserDetails?.subId, setDisabled, setShowCancelDialog]);
-
-  const subscribeUser = useCallback(() => {
-    const paddleCheckout = (paddle) => {
-      lock();
-      setDisabled(true);
-      paddle?.Checkout.open({
-        settings: {
-          displayMode: 'overlay',
-          theme: resolvedTheme === 'dark' ? 'dark' : 'light',
-          allowLogout: !user.email,
-          // variant: 'one-page',
-        },
-        items: [{
-          priceId: paddleStatus.priceId,
-          quantity: 1
-        }],
-        customer: {
-          email: user.email,
-        },
-      });
-    };
-
-    if (!paddle?.Initialized) {
-      initializePaddle({
-        token: paddleStatus.clientToken,
-        environment: paddleStatus.environment,
-        eventCallback: (event) => {
-          if (event.data && event.name) {
-            if (event.name === 'checkout.closed') {
-              if (event.data.status === 'completed') {
-                paddleCheckSubscriptionCheckout(event.data.customer.id).then(() => {
-                  setDisabled(false);
-                  unlock();
-                });
-              } else {
-                setDisabled(false);
-                unlock();
-              }
-            }
-          }
-        },
-      }).then(async paddle => {
-        if (paddle) {
-          setPaddle(paddle);
-          paddleCheckout(paddle);
-        }
-      });
-    } else {
-      paddleCheckout(paddle);
-    }
-  }, [paddleStatus, paddle, setPaddle, lock, unlock, user?.email, resolvedTheme, disabled, setDisabled]);
-
-  if (paddleStatus.status === PADDLE_STATUS_MAP.active) {
-    if (paddleStatus.scheduledChange?.action === 'pause' || paddleStatus.scheduledChange?.action === 'cancel') {
-      return (
-        <>
-          <PaymentStatusCard status='orange'>
-            <CardContent className='flex flex-col gap-1'>
-              <div className='text-sm text-muted-foreground'>
-                {t.rich(paddleStatus.scheduledChange?.action === 'pause' ? 'active.scheduled.pause' : 'active.scheduled.cancel', {
-                  status: (chunks) => <span className='text-base font-medium text-orange-500'>{chunks}</span>,
-                  date: () => (
-                    <span className='text-base font-medium text-orange-500'>
-                      <PaymentStatusDate date={paddleStatus.scheduledChange?.effectiveAt ? paddleStatus.scheduledChange?.effectiveAt : paddleStatus.nextPaymentAt} />
-                    </span>
-                  ),
-                })}
-              </div>
-              <div className='text-sm text-muted-foreground'>
-                {t('active.notification')}
-              </div>
-            </CardContent>
-          </PaymentStatusCard>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <PaymentStatusCard status='green'>
-          <CardContent className='flex flex-col gap-1'>
-            <div className='text-sm text-muted-foreground'>
-              {t.rich('active.nextPayment', {
-                date: () => (
-                  <span className='text-base font-medium text-green-600 dark:text-green-500'>
-                    <PaymentStatusDate date={paddleStatus.nextPaymentAt} />
-                  </span>
-                ),
-              })}
-            </div>
-            <div className='text-sm text-muted-foreground'>
-              {t('active.notification')}
-            </div>
-          </CardContent>
-          {!paddleStatus.scheduledChange?.action && (
-            <CardFooter className='flex flex-col items-start gap-2'>
-              <Button variant='destructive' size='lg' onClick={() => setShowCancelDialog(true)} disabled={disabled}>
-                {disabled ? (
-                  <Icons.spinner className='animate-spin' />
-                ) : (
-                  <Icons.x />
-                )}
-                {t('cancel.button')}
-              </Button>
-            </CardFooter>
-          )}
-        </PaymentStatusCard>
-
-        <ResponsiveDialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
-          <ResponsiveDialogContent>
-            <ResponsiveDialogHeader>
-              <ResponsiveDialogTitle>{t('cancel.dialog.title')}</ResponsiveDialogTitle>
-              <ResponsiveDialogDescription className='text-left text-foreground'>
-                {t('cancel.dialog.description')}
-              </ResponsiveDialogDescription>
-            </ResponsiveDialogHeader>
-            <ResponsiveDialogFooter>
-              <Button
-                variant='outline'
-                onClick={() => setShowCancelDialog(false)}
-                title={tCommon('cancel')}
-                disabled={disabled}
-              >
-                {tCommon('cancel')}
-              </Button>
-              <Button
-                onClick={cancelSubscription}
-                variant='destructive'
-                title={t('cancel.confirmButton')}
-                disabled={disabled}
-              >
-                {disabled && (
-                  <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
-                )}
-                {t('cancel.confirmButton')}
-              </Button>
-            </ResponsiveDialogFooter>
-          </ResponsiveDialogContent>
-        </ResponsiveDialog>
-      </>
-    );
-  }
-
-  if (paddleStatus.status === PADDLE_STATUS_MAP.paused) {
-    return (
-      <PaymentStatusCard status='red'>
-        <CardContent className='flex flex-col gap-1'>
-          <div className='text-sm font-medium text-red-500'>
-            {t('paused.message')}
-          </div>
-        </CardContent>
-        <CardFooter className='flex flex-col items-start gap-2'>
-          <Button size='lg' onClick={resumeSubscription} disabled={disabled}>
-            {disabled ? (
-              <Icons.spinner className='animate-spin' />
-            ) : (
-              <Icons.arrowRight />
-            )}
-            {t('paused.button')}
-          </Button>
-        </CardFooter>
-      </PaymentStatusCard>
-    );
-  }
-
-  return (
-    <PaymentStatusCard status='red'>
-      <CardContent className='flex flex-col gap-1'>
-        {paddleStatus.status === PADDLE_STATUS_MAP.cancelled && (
-          <div className='text-sm font-medium text-red-500'>
-            {t('cancelled.message')}
-          </div>
-        )}
-        {paddleStatus.status === PADDLE_STATUS_MAP.past_due && (
-          <div className='text-sm font-medium text-red-500'>
-            {t('pastDue.message')}
-          </div>
-        )}
-      </CardContent>
-      <CardFooter className='flex flex-col items-start gap-2'>
-        <Button size='lg' onClick={subscribeUser} disabled={disabled}>
-          {disabled ? (
-            <Icons.spinner className='animate-spin' />
-          ) : (
-            <Icons.sparkles />
-          )}
-          {t('cancelled.button')}
-        </Button>
-      </CardFooter>
-    </PaymentStatusCard>
-  );
-};
-
-const PaymentStatusFullAccess = () => {
-  const t = useTranslations('pages.account.subscriptionStatus.fullAccess');
-
-  return (
-    <PaymentStatusCard status='green'>
-      <CardContent className='flex flex-col gap-1'>
-        <p className='text-sm text-muted-foreground'>
-          {t('message')}
-        </p>
-      </CardContent>
-    </PaymentStatusCard>
-  );
-};
-
-const PaymentStatusBlocked = () => {
-  const t = useTranslations('pages.account.subscriptionStatus.blocked');
-
-  return (
-    <PaymentStatusCard status='red'>
-      <CardContent className='flex flex-col gap-1'>
-        <p className='text-sm font-medium text-red-500'>
-          {t('message')}
-        </p>
-      </CardContent>
-    </PaymentStatusCard>
-  );
-};
-
-const PaymentStatusWrapper = ({ user, paddleStatus }) => {
-  // If Paddle is not configured, don't show anything
-  if (!paddleStatus.enabled) {
-    return null;
-  }
-
-  // If user has full access, show full access status
-  if (paddleStatus.status === PADDLE_STATUS_MAP.full) {
-    return (
-      <PaymentStatusFullAccess />
-    );
-  }
-
-  if (paddleStatus.status === PADDLE_STATUS_MAP.blocked) {
-    return (
-      <PaymentStatusBlocked />
-    );
-  }
-
-  if (paddleStatus.status === PADDLE_STATUS_MAP.trialActive || paddleStatus.status === PADDLE_STATUS_MAP.trialExpired) {
-    return (
-      <PaymentStatusTrial user={user} paddleStatus={paddleStatus} />
-    );
-  }
-
-  // Otherwise show subscription status
-  return (
-    <PaymentStatusSubscription user={user} paddleStatus={paddleStatus} />
-  );
-};
-
 const ExternalServiceNtfy = ( {ntfy, onUpdate} ) => {
   const t = useTranslations('pages.account.externalServices.ntfy');
   const [ntfyEnabled, setNtfyEnabled] = useState(ntfy?.enabled || false);
   const [ntfyServerUrl, setNtfyServerUrl] = useState(ntfy?.url || '');
-  const [ntfyTopic, setNtfyTopic] = useState(ntfy?.topic || 'wapy-dev');
+  const [ntfyTopic, setNtfyTopic] = useState(ntfy?.topic || 'sub-idler-me');
   const [ntfyAccessToken, setNtfyAccessToken] = useState(ntfy?.token || '');
   const [ntfyLoading, setNtfyLoading] = useState(false);
 
@@ -1495,7 +1018,7 @@ const ExternalServiceNtfy = ( {ntfy, onUpdate} ) => {
               id='ntfy-topic-name'
               value={ntfyTopic}
               onChange={(e) => setNtfyTopic(e.target.value)}
-              placeholder='wapy-dev'
+              placeholder='sub-idler-me'
             />
           </div>
 
@@ -2049,7 +1572,7 @@ const ExportActions = () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `wapy-dev-export-${format(new Date(), 'yyyy-MM-dd')}.json`;
+      link.download = `sub-idler-me-export-${format(new Date(), 'yyyy-MM-dd')}.json`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -2091,7 +1614,7 @@ const ExportActions = () => {
   );
 };
 
-export const AccountSettings = ({ user, paddleStatus }) => {
+export const AccountSettings = ({ user }) => {
   const [externalServices, setExternalServices] = useState(user?.externalServices || {});
 
   const handleExternalServicesUpdate = useCallback((data) => {
@@ -2101,7 +1624,6 @@ export const AccountSettings = ({ user, paddleStatus }) => {
   return (
     <div className='w-full max-w-4xl space-y-6 text-left'>
       <UserProfile user={user} />
-      <PaymentStatusWrapper user={user} paddleStatus={paddleStatus} />
       <DefaultSettings user={user} />
       <NotificationManager user={user} externalServices={externalServices} />
       <CategoryManager user={user} />
