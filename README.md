@@ -13,6 +13,17 @@ Track recurring expenses in one readable dashboard, get reminders before you are
 
 ## Quick start
 
+No build needed — use the pre-built image from this repo's package registry:
+
+```bash
+cp .env.example .env   # then set POSTGRES_PASSWORD, AUTH_SECRET, SUBSCRIPTION_JWT_SECRET (openssl rand -base64 32 works)
+docker compose -f docker-compose.image.yml up -d
+```
+
+The container runs `prisma migrate deploy` on start; Postgres gets created on first boot. Only `SITE_URL` needs a real value in production (`https://sub.idler.me`), plus your SMTP settings.
+
+Or build it yourself from source:
+
 ```bash
 ./scripts/setup.sh && docker compose up -d --build
 ```
