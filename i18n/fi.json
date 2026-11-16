@@ -57,10 +57,7 @@
   "languages": {
     "selectLanguage": "Valitse kieli",
     "invalid": "Virheellinen kieli",
-    "failed": "Kielen vaihtaminen epäonnistui",
-    "notAvailableTitle": "Kielivalinta ei käytettävissä",
-    "notAvailableMessage": "Kieliasetuksia ei voi muuttaa, koska toiminnalliset evästeet on poistettu käytöstä etkä ole kirjautunut sisään. Vaihda kieli joko:",
-    "enableCookies": "Ota toiminnalliset evästeet käyttöön"
+    "failed": "Kielen vaihtaminen epäonnistui"
   },
   "home": {
     "visitor": {
@@ -1099,22 +1096,6 @@
         "step1": "Etsi vaihtoehto kuten \"Lisää aloitusnäytölle\" tai \"Asenna sovellus\" selaimesi valikosta",
         "step2": "Vaihtoehto löytyy yleensä päävalikosta (usein kolme pistettä tai viivaa)",
         "step3": "Seuraa selaimesi erityisiä asennusohjeita"
-      }
-    },
-    "cookieConsent": {
-      "title": "Evästeasetukset",
-      "description": "Valitse, mitkä evästeet haluat hyväksyä. Välttämättömiä evästeitä ei voi poistaa käytöstä, koska ne ovat tarpeen verkkosivuston toiminnalle.",
-      "essential": {
-        "title": "Välttämättömät evästeet",
-        "description": "Vaaditaan verkkosivuston toimintaan (tunnistautuminen, turvallisuus)."
-      },
-      "functional": {
-        "title": "Toiminnalliset evästeet",
-        "description": "Parantavat käyttökokemustasi (teema, kieliasetukset)."
-      },
-      "buttons": {
-        "savePreferences": "Tallenna asetukset",
-        "acceptAll": "Hyväksy kaikki"
       }
     },
     "searchBar": {

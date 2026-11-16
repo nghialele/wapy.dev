@@ -57,10 +57,7 @@
   "languages": {
     "selectLanguage": "Dil seçin",
     "invalid": "Geçersiz dil",
-    "failed": "Dil değiştirilemedi",
-    "notAvailableTitle": "Dil Seçimi Kullanılamıyor",
-    "notAvailableMessage": "Fonksiyonel çerezler devre dışı olduğu ve giriş yapmadığınız için dil tercihleri değiştirilemiyor. Dili değiştirmek için şunlardan birini yapmanız gerekiyor:",
-    "enableCookies": "Fonksiyonel çerezleri etkinleştirin"
+    "failed": "Dil değiştirilemedi"
   },
   "home": {
     "visitor": {
@@ -1099,22 +1096,6 @@
         "step1": "Tarayıcınızın menüsünde \"Ana Ekrana Ekle\" veya \"Uygulamayı Yükle\" gibi bir seçenek arayın",
         "step2": "Seçenek genellikle ana menüde bulunur (genellikle üç nokta veya çizgi ile temsil edilir)",
         "step3": "Tarayıcınızın özel yükleme talimatlarını takip edin"
-      }
-    },
-    "cookieConsent": {
-      "title": "Çerez Tercihleri",
-      "description": "Lütfen kabul etmek istediğiniz çerezleri seçin. Temel çerezler web sitesinin çalışması için gerekli olduğundan devre dışı bırakılamaz.",
-      "essential": {
-        "title": "Temel Çerezler",
-        "description": "Web sitesinin çalışması için gereklidir (kimlik doğrulama, güvenlik)."
-      },
-      "functional": {
-        "title": "Fonksiyonel Çerezler",
-        "description": "Deneyiminizi geliştirir (tema, dil tercihleri)."
-      },
-      "buttons": {
-        "savePreferences": "Tercihleri Kaydet",
-        "acceptAll": "Tümünü Kabul Et"
       }
     },
     "searchBar": {
