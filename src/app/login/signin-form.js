@@ -253,8 +253,8 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
             />
             <Button type='submit' className='w-full' disabled={!!loginMethod}>
               {loginMethod === 'email'
-                ? <Icons.spinner className='mr-2 size-4 animate-spin' />
-                : <Icons.send className='mr-2 size-4' />
+                ? <Icons.spinner className='me-2 size-4 animate-spin' />
+                : <Icons.send className='me-2 size-4' />
               }
               {t('form.loginButton')}
             </Button>
@@ -266,8 +266,8 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
         { (isGithub) && (
           <Button variant='outline' className='w-full' onClick={signInGithub} disabled={!!loginMethod}>
             {loginMethod === 'github'
-              ? <Icons.spinner className='mr-2 animate-spin' />
-              : <Icons.github className='mr-2' />
+              ? <Icons.spinner className='me-2 animate-spin' />
+              : <Icons.github className='me-2' />
             }
             {t('form.loginWithProvider', { provider: 'Github' })}
           </Button>
@@ -275,8 +275,8 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
         { (isGoogle) && (
           <Button variant='outline' className='w-full' onClick={signInGoogle} disabled={!!loginMethod}>
             {loginMethod === 'google'
-              ? <Icons.spinner className='mr-2 animate-spin' />
-              : <Icons.google className='mr-2' />
+              ? <Icons.spinner className='me-2 animate-spin' />
+              : <Icons.google className='me-2' />
             }
             {t('form.loginWithProvider', { provider: 'Google' })}
           </Button>
@@ -284,11 +284,11 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
         { (genericAuthProvider) && (
           <Button variant='outline' className='w-full' onClick={signInGenericOAuth} disabled={!!loginMethod}>
             {loginMethod === genericAuthProvider
-              ? <Icons.spinner className='mr-2 animate-spin' />
+              ? <Icons.spinner className='me-2 animate-spin' />
               : (
-                genericAuthProvider.toLowerCase() === 'keycloak' ? <Icons.keycloak className='mr-2' /> :
-                genericAuthProvider.toLowerCase() === 'authentik' ? <Icons.authentik className='mr-2' /> :
-                <Icons.keyRound className='mr-2 text-primary' />
+                genericAuthProvider.toLowerCase() === 'keycloak' ? <Icons.keycloak className='me-2' /> :
+                genericAuthProvider.toLowerCase() === 'authentik' ? <Icons.authentik className='me-2' /> :
+                <Icons.keyRound className='me-2 text-primary' />
               )
             }
             {t('form.loginWithProvider', { provider: genericAuthProvider.replace(/\b\w/g, l => l.toUpperCase()) })}
