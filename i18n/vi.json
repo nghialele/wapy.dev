@@ -57,10 +57,7 @@
   "languages": {
     "selectLanguage": "Chọn ngôn ngữ",
     "invalid": "Ngôn ngữ không hợp lệ",
-    "failed": "Đổi ngôn ngữ thất bại",
-    "notAvailableTitle": "Không thể chọn ngôn ngữ",
-    "notAvailableMessage": "Không thể thay đổi ngôn ngữ vì cookie chức năng đang bị tắt và bạn chưa đăng nhập. Để đổi ngôn ngữ, bạn cần:",
-    "enableCookies": "Bật cookie chức năng"
+    "failed": "Đổi ngôn ngữ thất bại"
   },
   "home": {
     "visitor": {
@@ -1128,22 +1125,6 @@
         "step1": "Tìm tùy chọn như \"Thêm vào màn hình chính\" hoặc \"Cài ứng dụng\" trong menu trình duyệt",
         "step2": "Tùy chọn này thường nằm trong menu chính (thường là ba chấm hoặc ba gạch)",
         "step3": "Làm theo hướng dẫn cài đặt của trình duyệt bạn dùng"
-      }
-    },
-    "cookieConsent": {
-      "title": "Tùy chọn cookie",
-      "description": "Hãy chọn loại cookie bạn muốn chấp nhận. Cookie thiết yếu không thể tắt vì website cần chúng để hoạt động.",
-      "essential": {
-        "title": "Cookie thiết yếu",
-        "description": "Cần thiết để website hoạt động (xác thực, bảo mật)."
-      },
-      "functional": {
-        "title": "Cookie chức năng",
-        "description": "Cải thiện trải nghiệm của bạn (giao diện, tùy chọn ngôn ngữ)."
-      },
-      "buttons": {
-        "savePreferences": "Lưu tùy chọn",
-        "acceptAll": "Chấp nhận tất cả"
       }
     },
     "searchBar": {

@@ -10,7 +10,6 @@ import { ThemeProvider } from '@/components/providers';
 import Footer from '@/components/footer';
 import { siteConfig } from '@/components/config';
 import { Toaster } from '@/components/ui/sonner';
-import { CookieConsent } from '@/components/cookie-consent';
 import { Header } from '@/components/header';
 import { PushNotificationProvider } from '@/components/providers';
 import { PushNotificationToggle } from '@/components/notifications/notification-toggle';
@@ -163,7 +162,6 @@ export default async function RootLayout({ children }) {
                 <AddToHomeScreen />
               </PushNotificationProvider>
               <Toaster richColors closeButton />
-              <CookieConsent />
             </NextIntlClientProvider>
           </AuthProviderServer>
         </ThemeProvider>

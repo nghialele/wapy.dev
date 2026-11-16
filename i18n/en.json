@@ -57,10 +57,7 @@
   "languages": {
     "selectLanguage": "Select language",
     "invalid": "Invalid language",
-    "failed": "Failed to change the language",
-    "notAvailableTitle": "Language Selection Unavailable",
-    "notAvailableMessage": "Language preferences cannot be changed because functional cookies are disabled and you're not signed in. To change the language, you need to either:",
-    "enableCookies": "Enable functional cookies"
+    "failed": "Failed to change the language"
   },
   "home": {
     "visitor": {
@@ -1128,22 +1125,6 @@
         "step1": "Look for an option like \"Add to Home Screen\" or \"Install App\" in your browser's menu",
         "step2": "The option is usually found in the main menu (often represented by three dots or lines)",
         "step3": "Follow your browser's specific installation prompts"
-      }
-    },
-    "cookieConsent": {
-      "title": "Cookie Preferences",
-      "description": "Please select which cookies you want to accept. Essential cookies cannot be disabled as they are required for the website to function.",
-      "essential": {
-        "title": "Essential Cookies",
-        "description": "Required for the website to function (authentication, security)."
-      },
-      "functional": {
-        "title": "Functional Cookies",
-        "description": "Enhance your experience (theme, language preferences)."
-      },
-      "buttons": {
-        "savePreferences": "Save Preferences",
-        "acceptAll": "Accept All"
       }
     },
     "searchBar": {
