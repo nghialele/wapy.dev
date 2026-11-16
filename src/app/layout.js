@@ -6,7 +6,8 @@ import { Inter, Newsreader, JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 import { AuthProviderServer } from '@/lib/auth-server';
-import { ThemeProvider } from '@/components/providers';
+import { getLanguageConfig } from '@/config/languages';
+import { DirectionProviderWrapper, ThemeProvider } from '@/components/providers';
 import Footer from '@/components/footer';
 import { siteConfig } from '@/components/config';
 import { Toaster } from '@/components/ui/sonner';
@@ -16,9 +17,9 @@ import { PushNotificationToggle } from '@/components/notifications/notification-
 import { AddToHomeScreen } from '@/components/add-to-home-screen';
 
 // Fonts
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-const newsreader = Newsreader({ subsets: ['latin'], variable: '--font-newsreader', display: 'swap' });
-const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains-mono', display: 'swap' });
+const inter = Inter({ subsets: ['latin', 'latin-ext', 'vietnamese'], variable: '--font-inter', display: 'swap' });
+const newsreader = Newsreader({ subsets: ['latin', 'latin-ext', 'vietnamese'], variable: '--font-newsreader', display: 'swap' });
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin', 'latin-ext', 'vietnamese'], variable: '--font-jetbrains-mono', display: 'swap' });
 
 // Metadata
 export const metadata = {
@@ -135,9 +136,10 @@ const jsonLd = {
 // Root Layout
 export default async function RootLayout({ children }) {
   const locale = await getLocale();
+  const dir = getLanguageConfig(locale).dir;
 
   return (
-    <html lang={locale} suppressHydrationWarning className={`${inter.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}>
+    <html lang={locale} dir={dir} suppressHydrationWarning className={`${inter.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script
           type='application/ld+json'
@@ -146,6 +148,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body className='font-sans antialiased'>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+          <DirectionProviderWrapper dir={dir}>
           <AuthProviderServer>
             <NextIntlClientProvider>
               <PushNotificationProvider>
@@ -164,6 +167,7 @@ export default async function RootLayout({ children }) {
               <Toaster richColors closeButton />
             </NextIntlClientProvider>
           </AuthProviderServer>
+          </DirectionProviderWrapper>
         </ThemeProvider>
       </body>
     </html>
