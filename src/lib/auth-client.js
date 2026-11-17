@@ -5,15 +5,17 @@ import { useRouter } from 'next/navigation';
 import { createAuthClient } from 'better-auth/react';
 import { magicLinkClient } from 'better-auth/client/plugins';
 import { emailOTPClient } from 'better-auth/client/plugins';
-import { genericOAuthClient } from 'better-auth/client/plugins';
+import { twoFactorClient } from 'better-auth/client/plugins';
 
 const authClient = createAuthClient({
   plugins: [
     magicLinkClient(),
     emailOTPClient(),
-    genericOAuthClient(),
+    twoFactorClient(),
   ]
 });
+
+export { authClient };
 
 const AuthContext = createContext(null);
 

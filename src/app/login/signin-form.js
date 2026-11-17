@@ -156,7 +156,7 @@ const SignInSendAgain = ({ email, onClick }) => {
   );
 };
 
-export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvider = false}) {
+export function SignInForm({isGoogle = false, isGithub = false, isDiscord = false, genericAuthProvider = false}) {
   const t = useTranslations('pages.login');
   const tCommon = useTranslations('common');
   const [loginMethod, setLoginMethod] = useState(null);
@@ -210,12 +210,24 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
     });
   };
 
+  const signInDiscord = async () => {
+    if (!isDiscord) return;
+
+    setLoginMethod('discord');
+    await signIn.social({
+      provider: 'discord',
+      redirectTo: '/'
+    }).finally(() => {
+      setLoginMethod(null);
+    });
+  };
+
   const signInGenericOAuth = () => {
     if (!genericAuthProvider) return;
 
     setLoginMethod(genericAuthProvider);
-    signIn.oauth2({
-      providerId: genericAuthProvider,
+    signIn.social({
+      provider: genericAuthProvider,
       callbackURL: '/',
     }).finally(() => {
       setLoginMethod(null);
@@ -260,7 +272,7 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
             </Button>
           </form>
         </Form>
-        { (isGoogle || isGithub || genericAuthProvider) && (
+        { (isGoogle || isGithub || isDiscord || genericAuthProvider) && (
           <Divider text={t('otp.divider')} />
         ) }
         { (isGithub) && (
@@ -279,6 +291,15 @@ export function SignInForm({isGoogle = false, isGithub = false, genericAuthProvi
               : <Icons.google className='me-2' />
             }
             {t('form.loginWithProvider', { provider: 'Google' })}
+          </Button>
+        ) }
+        { (isDiscord) && (
+          <Button variant='outline' className='w-full' onClick={signInDiscord} disabled={!!loginMethod}>
+            {loginMethod === 'discord'
+              ? <Icons.spinner className='me-2 animate-spin' />
+              : <Icons.discord className='me-2' />
+            }
+            {t('form.loginWithProvider', { provider: 'Discord' })}
           </Button>
         ) }
         { (genericAuthProvider) && (

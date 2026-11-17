@@ -68,6 +68,7 @@ import { TimezoneFieldManager } from '@/components/subscriptions/form/field-time
 import { NotificationsFieldManager } from '@/components/subscriptions/form/field-notifications';
 import { cn } from '@/lib/utils';
 import { LogoIcon, IconPicker } from '@/components/ui/icon-picker';
+import { SecurityCard } from './security-card';
 
 const TimezoneManager = ({ user }) => {
   const t = useTranslations('pages.account.defaultSettings.timezone');
@@ -1624,6 +1625,7 @@ export const AccountSettings = ({ user }) => {
   return (
     <div className='w-full max-w-4xl space-y-6 text-left'>
       <UserProfile user={user} />
+      <SecurityCard user={user} />
       <DefaultSettings user={user} />
       <NotificationManager user={user} externalServices={externalServices} />
       <CategoryManager user={user} />

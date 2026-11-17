@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { nextCookies } from 'better-auth/next-js';
-import { magicLink, emailOTP, genericOAuth } from 'better-auth/plugins';
+import { magicLink, emailOTP, genericOAuth, twoFactor } from 'better-auth/plugins';
 import { prisma } from '@/lib/prisma';
 import { siteConfig } from '@/components/config';
 import { mailFrom, mailSend } from '@/lib/mail';
@@ -78,6 +78,14 @@ export const auth = betterAuth({
       } }
       : {}
     ),
+    ...(process.env.DISCORD_ID && process.env.DISCORD_SECRET
+      ? { discord: {
+        clientId: process.env.DISCORD_ID,
+        clientSecret: process.env.DISCORD_SECRET,
+        disableSignUp: process?.env?.DISABLE_USER_REGISTRATION === 'true'
+      } }
+      : {}
+    ),
   },
   user: {
     additionalFields: {
@@ -105,7 +113,10 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24,
   },
   plugins: [
-    nextCookies(),
+    twoFactor({
+      issuer: siteConfig.name,
+      allowPasswordless: true,
+    }),
     magicLink( {
       disableSignUp: process?.env?.DISABLE_USER_REGISTRATION === 'true',
       expiresIn: 2 * 60 * 60, // 2 hours
@@ -150,6 +161,7 @@ export const auth = betterAuth({
       })]
       : []
     ),
+    nextCookies(),
   ],
   advanced: {
     cookiePrefix: 'sub-idler-me',

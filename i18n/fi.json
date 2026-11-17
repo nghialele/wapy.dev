@@ -110,6 +110,24 @@
           "title": "Seuraa ja optimoi",
           "description": "Valvo kulutustottumuksia ja saat oivalluksia tarpeettomien tilauskulujen vähentämiseksi"
         }
+      },
+      "free": {
+        "eyebrow": "Maksuton",
+        "title": "Maksuton, ilman ehtoja",
+        "description": "Ohjelmisto on avoimen lähdekoodin. Tämä instanssi on isännöity niille, jotka eivät voi ajaa omaa.",
+        "price": "0 €",
+        "period": "ikuisesti",
+        "features": {
+          "unlimited": "Rajattomat tilaukset",
+          "notifications": "Sähköposti-, push-, webhook-, ntfy-, Discord- ja Slack-muistutukset",
+          "reports": "Raportit ja kulutusanalyysi",
+          "export": "Vie tietosi milloin tahansa",
+          "noAds": "Ei mainoksia, ei seurantaa, ei maksutietoja",
+          "bestEffort": "Parhaan yrityksen mukaan, ei käytettävyystakuita"
+        },
+        "button": "Kirjaudu sisään",
+        "selfHostButton": "Isännöi itse",
+        "selfHostNote": "Haluatko oman palvelimen? Sama ohjelmisto pyörii Dockerilla noin kymmenessä minuutissa."
       }
     }
   },
@@ -153,6 +171,29 @@
         "namePlaceholder": "Syötä nimesi",
         "addNamePrompt": "Lisää nimesi",
         "memberSince": "Jäsen alkaen {date}"
+      },
+      "security": {
+        "title": "Kaksivaiheinen todennus",
+        "description": "Lisää tilillesi ylimääräinen suojauskerros todennussovelluksella.",
+        "enabledDescription": "Tilisi on suojattu todennussovelluksella.",
+        "enableButton": "Ota todennussovellus käyttöön",
+        "disableButton": "Poista käytöstä",
+        "disableTitle": "Kaksivaiheisen todennuksen poistaminen käytöstä",
+        "disableDescription": "Tilisi ei enää vaadi todennuskoodia. Oletko varma?",
+        "setupTitle": "Todennussovelluksen määrittäminen",
+        "setupDescription": "Skannaa QR-koodi todennussovelluksellasi ja syötä kuusinumeroinen koodi vahvistusta varten.",
+        "copyUri": "Kopioi määritysavain",
+        "backupCodes": "Varmuuskoodit",
+        "copyCodes": "Kopioi varmuuskoodit",
+        "savedCodes": "Olen tallentanut varmuuskoodini",
+        "codeLabel": "Kuusinumeroinen koodi",
+        "verifyButton": "Vahvista ja ota käyttöön",
+        "cancel": "Peruuta",
+        "copied": "Kopioitu leikepöydälle.",
+        "enabled": "Kaksivaiheinen todennus otettu käyttöön.",
+        "disabled": "Kaksivaiheinen todennus poistettu käytöstä.",
+        "invalidCode": "Virheellinen koodi. Yritä uudelleen.",
+        "error": "Jokin meni vikaan. Yritä uudelleen."
       },
       "categories": {
         "title": "Kategoriat",
@@ -385,7 +426,8 @@
           "generic": "Outoa! Emme voineet kirjata sinua sisään. Syynä voi olla sähköpostiosoitteesi tai jokin meni vikaan meidän päässämme.",
           "invalidCode": "Koodi näyttää virheelliseltä. Tarkista 6 numeroa ja yritä uudelleen.",
           "somethingWrong": "Jokin meni vikaan. Pyydä uusi koodi ja yritä uudelleen.",
-          "workspaceAccess": "Valitettavasti sinulla ei ole pääsyä tähän työtilaan."
+          "workspaceAccess": "Valitettavasti sinulla ei ole pääsyä tähän työtilaan.",
+          "rateLimited": "Liian monta pyyntöä. Odota hetki ja yritä uudelleen."
         }
       }
     },
@@ -439,6 +481,10 @@
       "updates": {
         "title": "Käytännön päivitykset",
         "description": "Saatamme päivittää tätä tietosuojakäytäntöä ajoittain. Ilmoitamme muutoksista julkaisemalla uuden tietosuojakäytännön tälle sivulle ja päivittämällä voimaantulopäivän."
+      },
+      "operator": {
+        "title": "Palvelun ylläpitäjä",
+        "description": "sub.idler.me on yhden henkilön ylläpitämä yhteisöpalvelu omalla itse isännöidyllä infrastruktuurilla, ei yritys. Maksujen käsittelyä ei ole, eikä mainontaa."
       }
     },
     "reports": {
@@ -519,6 +565,12 @@
       },
       "contactUs": {
         "description": "If you have any questions or concerns about these Terms of Service, reach the operator on Matrix from the <link>contact page</link>."
+      },
+      "freeService": {
+        "title": "Maksuton palvelu, ei laskutusta",
+        "paragraph1": "sub.idler.me on maksuton. Ei tilauksia, ei kokeilujaksoja, ei korttikenttiä eikä palautuksia, koska rahaa ei liiku.",
+        "paragraph2": "Ohjelmisto on avoimen lähdekoodin MIT-lisenssillä ja Commons Clause -ehdolla. Voit isännöidä sen itse. Tämä instanssi on olemassa niille, jotka eivät voi tai eivät halua ylläpitää omaa.",
+        "paragraph3": "Palvelu tarjotaan sellaisenaan ja parhaan yrityksen mukaan. Käytettävyyttä ei taata, eikä ole takeita siitä, että tiedot säilyvät vian sattuessa. Vie tietosi säännöllisesti ja pidä omat varmuuskopiot."
       }
     },
     "contact": {

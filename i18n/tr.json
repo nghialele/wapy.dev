@@ -110,6 +110,24 @@
           "title": "Takip Edin ve Optimize Edin",
           "description": "Harcama alışkanlıklarınızı izleyin ve gereksiz abonelik maliyetlerini azaltmak için içgörüler edinin"
         }
+      },
+      "free": {
+        "eyebrow": "Ücretsiz",
+        "title": "Ücretsiz, sürpriz yok",
+        "description": "Yazılım açık kaynaklıdır. Bu örnek, kendi sunucusunu çalıştıramayanlar için barındırılmaktadır.",
+        "price": "0 €",
+        "period": "sonsuza kadar",
+        "features": {
+          "unlimited": "Sınırsız abonelik",
+          "notifications": "E-posta, push, webhook, ntfy, Discord ve Slack hatırlatmaları",
+          "reports": "Raporlar ve harcama içgörüleri",
+          "export": "Verilerinizi istediğiniz zaman dışa aktarın",
+          "noAds": "Reklam yok, takip yok, ödeme bilgisi yok",
+          "bestEffort": "Elimden geleni yapıyoruz, çalışma süresi garantisi yok"
+        },
+        "button": "Giriş yap",
+        "selfHostButton": "Kendiniz barındırın",
+        "selfHostNote": "Kendi sunucunuzu mu tercih ediyorsunuz? Aynı yazılım Docker ile yaklaşık on dakikada çalışır."
       }
     }
   },
@@ -153,6 +171,29 @@
         "namePlaceholder": "Adınızı girin",
         "addNamePrompt": "Adınızı ekleyin",
         "memberSince": "{date} tarihinden beri üye"
+      },
+      "security": {
+        "title": "İki aşamalı doğrulama",
+        "description": "Bir kimlik doğrulayıcı uygulama ile hesabınıza ek bir güvenlik katmanı ekleyin.",
+        "enabledDescription": "Hesabınız bir kimlik doğrulayıcı uygulama ile korunuyor.",
+        "enableButton": "Kimlik doğrulayıcı uygulama etkinleştir",
+        "disableButton": "Devre dışı bırak",
+        "disableTitle": "İki aşamalı doğrulamayı devre dışı bırak",
+        "disableDescription": "Hesabınız artık kimlik doğrulayıcı kodu gerektirmeyecek. Emin misiniz?",
+        "setupTitle": "Kimlik doğrulayıcı uygulama kurulumu",
+        "setupDescription": "Kimlik doğrulayıcı uygulamanızla QR kodunu tarayın, ardından doğrulama için altı haneli kodu girin.",
+        "copyUri": "Kurulum anahtarını kopyala",
+        "backupCodes": "Yedek kodları",
+        "copyCodes": "Yedek kodları kopyala",
+        "savedCodes": "Yedek kodlarımı kaydettim",
+        "codeLabel": "Altı haneli kod",
+        "verifyButton": "Doğrula ve etkinleştir",
+        "cancel": "İptal",
+        "copied": "Panoya kopyalandı.",
+        "enabled": "İki aşamalı doğrulama etkinleştirildi.",
+        "disabled": "İki aşamalı doğrulama devre dışı bırakıldı.",
+        "invalidCode": "Kod geçersiz. Lütfen tekrar deneyin.",
+        "error": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin."
       },
       "categories": {
         "title": "Kategoriler",
@@ -385,7 +426,8 @@
           "generic": "Garip! Giriş yapamadık. E-postanız yanlış olabilir veya bizim tarafımızda bir sorun oluşmuş olabilir.",
           "invalidCode": "Kod yanlış görünüyor. 6 haneyi tekrar kontrol edin ve tekrar deneyin.",
           "somethingWrong": "Bir şeyler yanlış gitti. Lütfen yeni bir kod isteyin ve tekrar deneyin.",
-          "workspaceAccess": "Üzgünüz, bu çalışma alanına erişiminiz yok."
+          "workspaceAccess": "Üzgünüz, bu çalışma alanına erişiminiz yok.",
+          "rateLimited": "Çok fazla istek. Bir dakika bekleyin ve tekrar deneyin."
         }
       }
     },
@@ -439,6 +481,10 @@
       "updates": {
         "title": "Bu Politikadaki Güncellemeler",
         "description": "Bu Gizlilik Politikasını zaman zaman güncelleyebiliriz. Yeni Gizlilik Politikasını bu sayfada yayınlayarak ve yürürlük tarihini güncelleyerek sizi değişikliklerden haberdar edeceğiz."
+      },
+      "operator": {
+        "title": "Bu Hizmeti Kim Yürütüyor",
+        "description": "sub.idler.me, şirket olmayan bir topluluk hizmeti olarak kendi barındırılan altyapısı üzerinde tek bir kişi tarafından yürütülmektedir. Ödeme işleme yok, reklam yok."
       }
     },
     "reports": {
@@ -519,6 +565,12 @@
       },
       "contactUs": {
         "description": "If you have any questions or concerns about these Terms of Service, reach the operator on Matrix from the <link>contact page</link>."
+      },
+      "freeService": {
+        "title": "Ücretsiz Hizmet, Faturalandırma Yok",
+        "paragraph1": "sub.idler.me ücretsizdir. Plan yok, deneme yok, kart alanı yok, iade yok çünkü para el değiştirmiyor.",
+        "paragraph2": "Yazılım, Commons Clause eklenmiş MIT lisansı altında açık kaynaklıdır. Kendiniz barındırabilirsiniz. Bu örnek, kendi örneğini çalıştıramayan veya çalıştırmak istemeyenler için vardır.",
+        "paragraph3": "Hizmet olduğu gibi ve elimden gelenin en iyisiyle sağlanır. Çalışma süresi garantisi yok ve bir arıza durumunda verilerin korunacağına dair garanti yok. Verilerinizi düzenli olarak dışa aktarın ve kendi yedeklerinizi saklayın."
       }
     },
     "contact": {
