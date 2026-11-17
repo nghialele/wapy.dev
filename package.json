@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "brand:assets": "node scripts/generate-brand-assets.mjs",
-    "lint": "next lint",
+    "lint": "eslint .",
     "migrate": "prisma migrate dev",
     "clean": "rm -rf node_modules && rm -rf ./src/generated && rm -rf .next && rm -rf ./public/icons/dashboard/",
     "postinstall": "node scripts/fetch-dashboard-icons.js",

@@ -16,6 +16,7 @@ This file is for coding agents working in the repo. `README.md` is the human-fac
 ```bash
 npm run dev            # next dev --turbopack
 npm run build          # next build — the real check; there is no test suite
+npm run lint           # eslint . (flat config)
 npm run migrate        # prisma migrate dev
 npm run studio         # prisma studio on :5555
 npm run brand:assets   # regenerate brand images
@@ -23,9 +24,11 @@ npm run brand:assets   # regenerate brand images
 
 `src/generated/` is Prisma output; never edit it. `postinstall` fetches dashboard icons into `public/icons/dashboard/`.
 
-**`npm run lint` is currently broken**: Next 16 removed `next lint`, and ESLint 10 requires a flat `eslint.config.js` while the repo still has `.eslintrc.json`. Treat `npm run build` as the gate until that is migrated; do not paper over it by deleting the script.
+`npm run lint` currently runs only core ESLint rules (`no-undef`). The `eslint-config-next` preset is not wired in yet: it depends on `eslint-plugin-react@7`, which calls `scopeManager.addGlobals()`, removed in ESLint 10. Restore the preset once that plugin supports ESLint 10 instead of pinning ESLint down.
 
-Verification = `npm run build`, then load the affected page with a dev server and check the console. No unit tests exist; do not claim a change is tested if you only built it.
+Verification = `npm run lint` + `npm run build`, then load the affected page with a dev server and check the console. No unit tests exist; do not claim a change is tested if you only built it.
+
+An HTTP 200 proves nothing here: pages render their shell and crash inside a component, so the status stays 200 while the page body is wrong. Check the rendered content, not just the response code.
 
 ## Deploy / ops
 
