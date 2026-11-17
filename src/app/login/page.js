@@ -9,12 +9,14 @@ const PageLogin = async () => {
   const isGithub = (process?.env?.GITHUB_ID && process?.env?.GITHUB_SECRET) ? true : false;
   const isGenericAuth = (process?.env?.GENERIC_AUTH_PROVIDER && process?.env?.GENERIC_AUTH_CLIENT_ID && process?.env?.GENERIC_AUTH_CLIENT_SECRET && process?.env?.GENERIC_AUTH_ISSUER) ? true : false;
   const genericAuthProvider = isGenericAuth ? process?.env?.GENERIC_AUTH_PROVIDER : false;
+  const isDiscord = (process?.env?.DISCORD_ID && process?.env?.DISCORD_SECRET) ? true : false;
 
   return (
     <div className='flex flex-col grow justify-center items-center w-full'>
       <SignInForm
         isGithub={ isGithub }
         isGoogle={ isGoogle }
+        isDiscord={ isDiscord }
         genericAuthProvider={ genericAuthProvider }
       />
     </div>
