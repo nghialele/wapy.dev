@@ -50,6 +50,7 @@ const PricePrinter = ({ cost, isPlus }) => {
 const SubscriptionCard = ({ subscription, currency, withDate = true, withPaymentsCount = false }) => {
   const t = useTranslations('components.reports.subscription');
   const formatter = useFormatter();
+  const locale = useLocale();
 
   return (
     <div className='group p-3 transition-colors hover:bg-muted/50 hover:rounded-lg'>
@@ -101,6 +102,7 @@ const OverviewRow = ({ title, description, costs = {total: {}}, categories }) =>
   const t = useTranslations('components.reports.modal');
   const tFilters = useTranslations('components.filters');
   const tCommon = useTranslations('common');
+  const locale = useLocale();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -225,6 +227,7 @@ const OverviewRowPaymentMethod = ({ title, description, costs = {total: {}}, pay
   const t = useTranslations('components.reports.modal');
   const tFilters = useTranslations('components.filters');
   const tCommon = useTranslations('common');
+  const locale = useLocale();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

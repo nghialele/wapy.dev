@@ -557,6 +557,7 @@ const NotificationIcon = ({ type, isEnabled, IconComponent, isVisible = true }) 
 export const SubscriptionCard = ({ subscription, externalServices }) => {
   const t = useTranslations('components.subscriptions.card');
   const tCommon = useTranslations('common');
+  const locale = useLocale();
   const tCycle = useTranslations('components.subscriptions.cycles');
   const tNotifications = useTranslations('components.subscriptions.form.fields.notifications.types');
   const parsedIcon = subscription.logo ? JSON.parse(subscription.logo) : false;
