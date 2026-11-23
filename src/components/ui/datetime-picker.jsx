@@ -43,6 +43,7 @@ import {
   CalendarIcon
 } from "lucide-react"
 import { DayPicker, TZDate } from "react-day-picker"
+import { pickerInitialDate } from "@/components/ui/datetime-picker-lib"
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -84,11 +85,10 @@ export function DateTimePicker({
     d.setMinutes(nextIncrement)
     return d
   }, [timePicker?.increment])
-  const initDate = useMemo(() => realMinutes(new TZDate(value || new Date(), timezone)), [
-    realMinutes,
-    value,
-    timezone
-  ])
+  const initDate = useMemo(
+    () => pickerInitialDate(value, timezone, realMinutes),
+    [realMinutes, value, timezone]
+  )
 
   const [month, setMonth] = useState(initDate)
   const [date, setDate] = useState(initDate)
@@ -123,10 +123,10 @@ export function DateTimePicker({
     },
     [date, setDate, setMonth, realMinutes]
   )
-  const onSumbit = useCallback(() => {
-    onChange(new Date(date))
+  const onSubmit = useCallback(() => {
+    if (!value) onChange(new Date(date))
     setOpen(false)
-  }, [date, onChange])
+  }, [date, onChange, value])
 
   const onMonthYearChanged = useCallback(
     (d, mode) => {
@@ -340,7 +340,7 @@ export function DateTimePicker({
             />
           )}
           <div className="flex flex-row-reverse items-center justify-between">
-            <Button className="ms-2 h-7 px-2" onClick={onSumbit}>
+            <Button type="button" className="ms-2 h-7 px-2" onClick={onSubmit}>
               Done
             </Button>
             {timezone && (
@@ -481,19 +481,9 @@ function TimePicker({
   const [minute, setMinute] = useState(value.getMinutes())
   const [second, setSecond] = useState(value.getSeconds())
 
-  useEffect(() => {
-    onChange(
-      buildTime({
-        use12HourFormat,
-        value,
-        formatStr,
-        hour,
-        minute,
-        second,
-        ampm
-      })
-    )
-  }, [hour, minute, second, ampm, formatStr, use12HourFormat])
+  // Local time edits are emitted from the change handlers. The effect that
+  // used to live here re-emitted (and rounded) the untouched value on mount,
+  // mutating the controlled form value whenever the popover opened.
 
   const _hourIn24h = useMemo(() => {
     return use12HourFormat ? (hour % 12) + ampm * 12 : hour
@@ -589,115 +579,91 @@ function TimePicker({
 
   const onHourChange = useCallback(
     v => {
-      if (min) {
-        let newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour: v.value,
-          minute,
-          second,
-          ampm
-        })
-        if (newTime < min) {
-          setMinute(min.getMinutes())
-          setSecond(min.getSeconds())
-        }
+      let nextMinute = minute
+      let nextSecond = second
+      const newTime = () => buildTime({
+        use12HourFormat,
+        value,
+        formatStr,
+        hour: v.value,
+        minute: nextMinute,
+        second: nextSecond,
+        ampm
+      })
+      if (min && newTime() < min) {
+        nextMinute = min.getMinutes()
+        nextSecond = min.getSeconds()
       }
-      if (max) {
-        let newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour: v.value,
-          minute,
-          second,
-          ampm
-        })
-        if (newTime > max) {
-          setMinute(max.getMinutes())
-          setSecond(max.getSeconds())
-        }
+      if (max && newTime() > max) {
+        nextMinute = max.getMinutes()
+        nextSecond = max.getSeconds()
       }
+      setMinute(nextMinute)
+      setSecond(nextSecond)
       setHour(v.value)
+      onChange(newTime())
     },
-    [setHour, use12HourFormat, value, formatStr, minute, second, ampm]
+    [setHour, setMinute, setSecond, onChange, use12HourFormat, value, formatStr, minute, second, ampm, min, max]
   )
 
   const onMinuteChange = useCallback(
     v => {
-      if (min) {
-        let newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour: v.value,
-          minute,
-          second,
-          ampm
-        })
-        if (newTime < min) {
-          setSecond(min.getSeconds())
-        }
+      let nextSecond = second
+      const newTime = () => buildTime({
+        use12HourFormat,
+        value,
+        formatStr,
+        hour,
+        minute: v.value,
+        second: nextSecond,
+        ampm
+      })
+      if (min && newTime() < min) {
+        nextSecond = min.getSeconds()
       }
-      if (max) {
-        let newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour: v.value,
-          minute,
-          second,
-          ampm
-        })
-        if (newTime > max) {
-          setSecond(newTime.getSeconds())
-        }
+      if (max && newTime() > max) {
+        nextSecond = newTime().getSeconds()
       }
+      setSecond(nextSecond)
       setMinute(v.value)
+      onChange(newTime())
     },
-    [setMinute, use12HourFormat, value, formatStr, hour, second, ampm]
+    [setMinute, setSecond, onChange, use12HourFormat, value, formatStr, hour, second, ampm, min, max]
   )
 
   const onAmpmChange = useCallback(
     v => {
-      if (min) {
-        let newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour,
-          minute,
-          second,
-          ampm: v.value
-        })
-        if (newTime < min) {
-          const minH = min.getHours() % 12
-          setHour(minH === 0 ? 12 : minH)
-          setMinute(min.getMinutes())
-          setSecond(min.getSeconds())
-        }
+      let nextHour = hour
+      let nextMinute = minute
+      let nextSecond = second
+      const newTime = () => buildTime({
+        use12HourFormat,
+        value,
+        formatStr,
+        hour: nextHour,
+        minute: nextMinute,
+        second: nextSecond,
+        ampm: v.value
+      })
+      if (min && newTime() < min) {
+        const minH = min.getHours() % 12
+        nextHour = minH === 0 ? 12 : minH
+        nextMinute = min.getMinutes()
+        nextSecond = min.getSeconds()
       }
-      if (max) {
-        let newTime = buildTime({
-          use12HourFormat,
-          value,
-          formatStr,
-          hour,
-          minute,
-          second,
-          ampm: v.value
-        })
-        if (newTime > max) {
-          const maxH = max.getHours() % 12
-          setHour(maxH === 0 ? 12 : maxH)
-          setMinute(max.getMinutes())
-          setSecond(max.getSeconds())
-        }
+      if (max && newTime() > max) {
+        const maxH = max.getHours() % 12
+        nextHour = maxH === 0 ? 12 : maxH
+        nextMinute = max.getMinutes()
+        nextSecond = max.getSeconds()
       }
+      setHour(nextHour)
+      setMinute(nextMinute)
+      setSecond(nextSecond)
       setAmpm(v.value)
+      onChange(newTime())
     },
-    [setAmpm, use12HourFormat, value, formatStr, hour, minute, second, min, max]
+    [setAmpm, setHour, setMinute, setSecond, onChange, use12HourFormat, value, formatStr, hour, minute, second, min, max]
   )
 
   const display = useMemo(() => {
@@ -782,7 +748,7 @@ function TimePicker({
                       <TimeItem
                         option={v}
                         selected={v.value === second}
-                        onSelect={v => setSecond(v.value)}
+                        onSelect={v => { setSecond(v.value); onChange(buildTime({ use12HourFormat, value, formatStr, hour, minute, second: v.value, ampm })) }}
                         className="h-8"
                         disabled={v.disabled}
                       />
