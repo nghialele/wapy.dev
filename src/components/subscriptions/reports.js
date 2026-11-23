@@ -401,26 +401,30 @@ const UpcomingPayments = ({ upcoming }) => {
   );
 };
 
-const UpcomingPaymentsTimeline = ({ subscriptions, endDate }) => {
+const UpcomingPaymentsTimeline = ({ subscriptions, endDate, fx = undefined }) => {
   const t = useTranslations('components.reports.upcomingPayments');
   const formatter = useFormatter();
   const locale = useLocale();
   const now = new Date();
+  const preferred = fx?.preferredCurrency;
+  const rateFor = (currency) => (preferred && currency !== preferred ? fx?.rates?.[`${currency}>latest`] || null : null);
 
   const rows = useMemo(() => {
     return subscriptions
       .filter(sub => sub.enabled)
       .map(sub => {
         const logo = sub.logo ? JSON.parse(sub.logo) : null;
+        const rate = rateFor(sub.currency);
+        const currency = rate ? preferred : sub.currency;
         const payments = SubscriptionGetUpcomingPayments(sub, endDate)
           .filter(payment => compareAsc(payment.date, now) >= 0)
-          .map(payment => ({ ...payment, zonedDate: toZonedTime(payment.date, sub.timezone) }))
+          .map(payment => ({ ...payment, price: rate ? payment.price * rate.rate : payment.price, zonedDate: toZonedTime(payment.date, sub.timezone) }))
           .sort((a, b) => compareAsc(a.date, b.date));
-        return { id: sub.id, name: sub.name, currency: sub.currency, logo, payments };
+        return { id: sub.id, name: sub.name, currency, logo, payments };
       })
       .filter(row => row.payments.length > 0)
       .sort((a, b) => compareAsc(a.payments[0].date, b.payments[0].date));
-  }, [subscriptions, endDate]);
+  }, [subscriptions, endDate, preferred, fx]);
 
   if (rows.length === 0) {
     return (
@@ -475,10 +479,17 @@ const UpcomingPaymentsTimeline = ({ subscriptions, endDate }) => {
   );
 };
 
-export function SubscriptionReports({ subscriptions }) {
+export function SubscriptionReports({ subscriptions, fx = undefined }) {
   const t = useTranslations('components.reports');
   const locale = useLocale();
   const tFilters = useTranslations('components.filters');
+  // Projected amounts use the latest available rate; the FX bundle is
+  // prepared server-side (provider/cache) and passed down (#81).
+  const preferredCurrency = fx?.preferredCurrency;
+  const rateFor = (currency) => {
+    if (!preferredCurrency || currency === preferredCurrency) return null;
+    return fx?.rates?.[`${currency}>latest`] || null;
+  };
 
   const stats = useMemo(() => {
     const activeSubscriptions = subscriptions.filter(sub => sub.enabled);
@@ -497,6 +508,12 @@ export function SubscriptionReports({ subscriptions }) {
       if (!sub.enabled) {
         return acc;
       }
+
+      const rate = preferredCurrency ? rateFor(sub.currency) : null;
+      // Costs aggregate in the preferred currency when a rate exists;
+      // otherwise the original currency is kept and labeled unconverted.
+      const costCurrency = (preferredCurrency && (rate || sub.currency === preferredCurrency)) ? preferredCurrency : sub.currency;
+      const scale = (amount) => rate ? amount * rate.rate : amount;
 
       const upcomingPayments = SubscriptionGetUpcomingPayments(sub, endOfNextYear)
         .filter(payment => compareAsc(payment.date, now) >= 0);
@@ -547,38 +564,38 @@ export function SubscriptionReports({ subscriptions }) {
           if (!acc.inOneMonth.payments[monthKey][dateStr]) {
             acc.inOneMonth.payments[monthKey][dateStr] = {};
           }
-          if (!acc.inOneMonth.payments[monthKey][dateStr][sub.currency]) {
-            acc.inOneMonth.payments[monthKey][dateStr][sub.currency] = [];
+          if (!acc.inOneMonth.payments[monthKey][dateStr][costCurrency]) {
+            acc.inOneMonth.payments[monthKey][dateStr][costCurrency] = [];
           }
-          acc.inOneMonth.payments[monthKey][dateStr][sub.currency].push({
+          acc.inOneMonth.payments[monthKey][dateStr][costCurrency].push({
             id: sub.id,
             name: sub.name,
-            amount: payment.price,
+            amount: rate ? payment.price * rate.rate : payment.price,
             date: toZonedTime(payment.date, sub.timezone),
             logo: logo
           });
         });
 
       // Update most expensive subscriptions
-      if (periodAmounts.inOneMonth > 0) {
-        if (!acc.mostExpensive.monthly[sub.currency] ||
-            periodAmounts.inOneMonth > acc.mostExpensive.monthly[sub.currency].amount) {
-          acc.mostExpensive.monthly[sub.currency] = {
+      if (scale(periodAmounts.inOneMonth) > 0) {
+        if (!acc.mostExpensive.monthly[costCurrency] ||
+            scale(periodAmounts.inOneMonth) > acc.mostExpensive.monthly[costCurrency].amount) {
+          acc.mostExpensive.monthly[costCurrency] = {
             id: sub.id,
             name: sub.name,
-            amount: periodAmounts.inOneMonth,
+            amount: scale(periodAmounts.inOneMonth),
             logo: logo
           };
         }
       }
 
-      if (periodAmounts.inOneYear > 0) {
-        if (!acc.mostExpensive.yearly[sub.currency] ||
-            periodAmounts.inOneYear > acc.mostExpensive.yearly[sub.currency].amount) {
-          acc.mostExpensive.yearly[sub.currency] = {
+      if (scale(periodAmounts.inOneYear) > 0) {
+        if (!acc.mostExpensive.yearly[costCurrency] ||
+            scale(periodAmounts.inOneYear) > acc.mostExpensive.yearly[costCurrency].amount) {
+          acc.mostExpensive.yearly[costCurrency] = {
             id: sub.id,
             name: sub.name,
-            amount: periodAmounts.inOneYear,
+            amount: scale(periodAmounts.inOneYear),
             logo: logo
           };
         }
@@ -588,18 +605,18 @@ export function SubscriptionReports({ subscriptions }) {
       Object.entries(periodAmounts).forEach(([period, amount]) => {
         if (amount === 0) return;
 
-        if (!acc[period].total[sub.currency]) {
-          acc[period].total[sub.currency] = 0;
+        if (!acc[period].total[costCurrency]) {
+          acc[period].total[costCurrency] = 0;
         }
-        acc[period].total[sub.currency] += amount;
+        acc[period].total[costCurrency] += scale(amount);
 
         const categories = sub.categories.length > 0 ? sub.categories : [{ name: '_uncategorized' }];
         categories.forEach(category => {
           if (!acc[period].categories[category.name]) {
             acc[period].categories[category.name] = {};
           }
-          acc[period].categories[category.name][sub.currency] =
-            (acc[period].categories[category.name][sub.currency] || 0) + amount;
+          acc[period].categories[category.name][costCurrency] =
+            (acc[period].categories[category.name][costCurrency] || 0) + scale(amount);
 
           // Store subscription data for each category
           if (!acc[period].subscriptions[category.name]) {
@@ -610,8 +627,8 @@ export function SubscriptionReports({ subscriptions }) {
           acc[period].subscriptions[category.name].push({
             id: sub.id,
             name: sub.name,
-            amount: periodAmounts[period],
-            currency: sub.currency,
+            amount: scale(periodAmounts[period]),
+            currency: sub.currency, originalCurrency: sub.currency,
             logo: logo,
             date: acc[period].paymentsList.length > 0 ? acc[period].paymentsList[0].date : null,
             price: sub.price,
@@ -624,8 +641,8 @@ export function SubscriptionReports({ subscriptions }) {
           if (!acc[period].paymentMethods[paymentMethod.name]) {
             acc[period].paymentMethods[paymentMethod.name] = {};
           }
-          acc[period].paymentMethods[paymentMethod.name][sub.currency] =
-            (acc[period].paymentMethods[paymentMethod.name][sub.currency] || 0) + amount;
+          acc[period].paymentMethods[paymentMethod.name][costCurrency] =
+            (acc[period].paymentMethods[paymentMethod.name][costCurrency] || 0) + scale(amount);
 
           // Store subscription data for each paymentMethod
           if (!acc[period].subscriptions[paymentMethod.name]) {
@@ -636,8 +653,8 @@ export function SubscriptionReports({ subscriptions }) {
           acc[period].subscriptions[paymentMethod.name].push({
             id: sub.id,
             name: sub.name,
-            amount: periodAmounts[period],
-            currency: sub.currency,
+            amount: scale(periodAmounts[period]),
+            currency: sub.currency, originalCurrency: sub.currency,
             logo: logo,
             date: acc[period].paymentsList.length > 0 ? acc[period].paymentsList[0].date : null,
             price: sub.price,
@@ -716,6 +733,37 @@ export function SubscriptionReports({ subscriptions }) {
           </div>
         </CardContent>
       </Card>
+      {fx && (fx.unconverted?.length > 0 || Object.keys(fx.rates || {}).length > 0) && (
+        <Card className='w-full'>
+          <CardHeader>
+            <CardTitle>{t('fx.title', { currency: fx.preferredCurrency })}</CardTitle>
+            <CardDescription>{t('fx.description')}</CardDescription>
+          </CardHeader>
+          <CardContent className='flex flex-col gap-2'>
+            <div className='flex flex-wrap gap-x-4 gap-y-1 text-sm'>
+              {Object.entries(fx.rates || {}).map(([key, info]) => {
+                const base = key.split('>')[0];
+                return (
+                  <span key={`fx-${key}`} className='text-muted-foreground'>
+                    {base} → {fx.preferredCurrency}: <span className='tabular-nums'>{info.rate.toFixed(4)}</span>
+                    {info.rateDate && ` (${info.rateDate})`}
+                  </span>
+                );
+              })}
+            </div>
+            {fx.unconverted?.length > 0 && (
+              <p className='text-sm text-muted-foreground'>{t('fx.unconverted', { currencies: fx.unconverted.join(', ') })}</p>
+            )}
+            {fx.pastTotals && Object.keys(fx.pastTotals).length > 0 && (
+              <p className='text-sm text-muted-foreground'>
+                {t('fx.pastTotals', {
+                  total: Object.entries(fx.pastTotals).map(([currency, sum]) => formatPrice(sum, currency, locale)).join(' + ')
+                })}
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      )}
       <Card className='w-full'>
         <CardHeader>
           <CardTitle>{t('costAverages.title')}</CardTitle>
@@ -833,7 +881,7 @@ export function SubscriptionReports({ subscriptions }) {
             </TabsList>
           </Tabs>
           {view === 'timeline' ? (
-            <UpcomingPaymentsTimeline subscriptions={subscriptions} endDate={stats.inOneMonthEnd} />
+            <UpcomingPaymentsTimeline subscriptions={subscriptions} endDate={stats.inOneMonthEnd} fx={fx} />
           ) : (
             <UpcomingPayments upcoming={stats.costs.inOneMonth?.payments} />
           )}
