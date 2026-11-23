@@ -28,25 +28,27 @@ import {
   ResponsiveDialogTitle,
   ResponsiveDialogDescription,
 } from '@/components/ui/responsive-dialog';
+import { Checkbox } from '@/components/ui/checkbox';
 import { SchemaSubscriptionEdit } from '@/components/subscriptions/schema';
 import { SubscriptionActionEdit, SubscriptionActionDelete } from '@/components/subscriptions/actions';
 import { FormFieldName } from '@/components/subscriptions/form/field-name';
 import { FormFieldLogo } from '@/components/subscriptions/form/form-logo';
 import { FormFieldCurrency } from '@/components/subscriptions/form/field-currency';
 import { FormFieldPrice } from '@/components/subscriptions/form/field-price';
+import { FormFieldFirstPaymentDate } from '@/components/subscriptions/form/field-first-payment-date';
 import { FormFieldPaymentDate } from '@/components/subscriptions/form/field-payment-date';
 import { FormFieldCycle } from '@/components/subscriptions/form/field-cycle';
-import { FormFieldUrl } from '@/components/subscriptions/form/field-url';
-import { FormFieldNotes } from '@/components/subscriptions/form/field-notes';
 import { FormFieldUntilDate } from '@/components/subscriptions/form/field-until-date';
-import { FormFieldTimezone } from '@/components/subscriptions/form/field-timezone';
+import { FormFieldUrl } from '@/components/subscriptions/form/field-url';
 import { FormFieldCategory } from '@/components/subscriptions/form/field-category';
 import { FormFieldPaymentMethod } from '@/components/subscriptions/form/field-payment-method';
 import { FormFieldNotifications } from '@/components/subscriptions/form/field-notifications';
+import { FormFieldNotes } from '@/components/subscriptions/form/field-notes';
+import { FormFieldTimezone } from '@/components/subscriptions/form/field-timezone';
 import { addDays } from 'date-fns';
+import { GetPastScheduledPaymentDates } from '@/components/subscriptions/lib';
 import { toZonedTime, fromZonedTime } from 'date-fns-tz';
 import { Icons } from '@/components/icons';
-
 export const SubscriptionEdit = ({ user, subscription = undefined }) =>  {
   const t = useTranslations('components.subscriptions.edit');
   const tCommon = useTranslations('common');
@@ -61,8 +63,9 @@ export const SubscriptionEdit = ({ user, subscription = undefined }) =>  {
       price: subscription?.price || 9.99,
       currency: subscription?.currency || user.currency,
       paymentDate: subscription?.paymentDate ? toZonedTime(subscription.paymentDate, subscription.timezone) : addDays(toZonedTime(new Date(), user.timezone).setHours(9, 0, 0, 0), 1),
-      untilDate: subscription?.untilDate ? toZonedTime(subscription.untilDate, subscription.timezone) : null,
+      firstPaymentDate: subscription?.firstPaymentDate ? toZonedTime(subscription.firstPaymentDate, subscription.timezone) : null,
       timezone: subscription?.timezone || user.timezone,
+      untilDate: subscription?.untilDate ? toZonedTime(subscription.untilDate, subscription.timezone) : null,
       cycle: subscription?.cycle || { time: 'MONTHS', every: 1 },
       url: subscription?.url || '',
       notes: subscription?.notes || '',
@@ -72,14 +75,43 @@ export const SubscriptionEdit = ({ user, subscription = undefined }) =>  {
     }
   });
 
+  // Historical payment preview (#105): when creating with a first payment date
+  // earlier than the next due date, show a confirmation dialog before writing
+  // any generated PastPayment rows. Cancel writes nothing.
+  const [historyPreview, setHistoryPreview] = useState(null);
+  const [selectedHistoryDates, setSelectedHistoryDates] = useState({});
+
   async function onSubmit(values) {
+    if (values?.firstPaymentDate && !subscription?.id) {
+      const zonedFirst = fromZonedTime(values.firstPaymentDate, values.timezone);
+      const zonedPayment = fromZonedTime(values.paymentDate, values.timezone);
+      if (zonedFirst.getTime() < zonedPayment.getTime()) {
+        const dates = values.enabled
+          ? GetPastScheduledPaymentDates(zonedFirst, values?.untilDate ? fromZonedTime(values.untilDate, values.timezone) : null, values.cycle.time, values.cycle.every)
+          : [];
+        setHistoryPreview({ values, dates });
+        setSelectedHistoryDates(Object.fromEntries(dates.map(d => [d.toISOString(), true])));
+        return;
+      }
+      values.firstPaymentDate = zonedFirst;
+    }
+    await submitSubscription(values);
+  }
+
+  async function submitSubscription(values, confirmedDates = undefined) {
     if (values?.untilDate) {
       values.untilDate.setHours(values.paymentDate.getHours(), values.paymentDate.getMinutes(), values.paymentDate.getSeconds());
       values.untilDate = fromZonedTime(values.untilDate, values.timezone);
     }
     values.paymentDate = fromZonedTime(values.paymentDate, values.timezone);
-    const subscription = await SubscriptionActionEdit(values);
-    if (!subscription) {
+    if (values?.firstPaymentDate && !subscription?.id) {
+      values.firstPaymentDate = fromZonedTime(values.firstPaymentDate, values.timezone);
+    } else if (subscription?.id) {
+      values.firstPaymentDate = undefined;
+    }
+    values.historyPaymentDates = confirmedDates;
+    const result = await SubscriptionActionEdit(values);
+    if (!result) {
       toast.error(t('toast.create.error'));
     } else {
       toast.success(t('toast.create.success'));
@@ -164,6 +196,17 @@ export const SubscriptionEdit = ({ user, subscription = undefined }) =>  {
             <FormFieldPaymentDate field={field} />
           )}
         />
+
+        {/* First Payment Date */}
+        {!subscription?.id && (
+          <FormField
+            control={form.control}
+            name='firstPaymentDate'
+            render={({ field }) => (
+              <FormFieldFirstPaymentDate field={field} />
+            )}
+          />
+        )}
 
         {/* Cycle */}
         <FormField
@@ -284,6 +327,55 @@ export const SubscriptionEdit = ({ user, subscription = undefined }) =>  {
               variant='destructive'
             >
               {tCommon('delete')}
+            </Button>
+          </ResponsiveDialogFooter>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
+      <ResponsiveDialog open={!!historyPreview} onOpenChange={(open) => !open && setHistoryPreview(null)}>
+        <ResponsiveDialogContent>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>{t('historyDialog.title')}</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription className='text-left'>
+              {t('historyDialog.description')}
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
+          <div className='max-h-64 overflow-y-auto flex flex-col gap-2 text-left'>
+            {historyPreview?.dates?.length === 0 && (
+              <p className='text-sm text-muted-foreground'>{t('historyDialog.noPayments')}</p>
+            )}
+            {historyPreview?.dates?.map((date) => {
+              const key = date.toISOString();
+              return (
+                <label key={key} className='flex items-center gap-3 text-sm'>
+                  <Checkbox
+                    checked={!!selectedHistoryDates[key]}
+                    onCheckedChange={(checked) => setSelectedHistoryDates((prev) => ({ ...prev, [key]: !!checked }))}
+                  />
+                  <span>{new Intl.DateTimeFormat(user.language || 'en', { dateStyle: 'medium', timeStyle: 'short', timeZone: historyPreview.values.timezone }).format(date)}</span>
+                </label>
+              );
+            })}
+          </div>
+          <ResponsiveDialogFooter>
+            <Button
+              type='button'
+              variant='outline'
+              onClick={() => setHistoryPreview(null)}
+            >
+              {tCommon('cancel')}
+            </Button>
+            <Button
+              type='button'
+              onClick={() => {
+                const confirmed = historyPreview.dates
+                  .filter((d) => selectedHistoryDates[d.toISOString()])
+                  .map((d) => new Date(d.getTime()));
+                const values = historyPreview.values;
+                setHistoryPreview(null);
+                submitSubscription(values, confirmed);
+              }}
+            >
+              {t('historyDialog.confirm')}
             </Button>
           </ResponsiveDialogFooter>
         </ResponsiveDialogContent>

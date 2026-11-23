@@ -104,6 +104,25 @@ export const SubscriptionGetNextFuturePaymentDate = (subscription) => {
   return nextPaymentDate;
 };
 
+// Derives the cycle-aligned scheduled payment dates between a first payment
+// date and now (exclusive). Used by the historical payment preview (#105).
+// A paused subscription and callers must not invoke this: it is the create
+// path only, and null untilDate boundaries return no further dates.
+export const GetPastScheduledPaymentDates = (firstPaymentDate, untilDate, time, every, now = new Date()) => {
+  const dates = [];
+  let current = firstPaymentDate;
+  const maxDates = 1200; // ~100 years of monthly cycles; rejects unbounded ranges.
+  while (current && current.getTime() < now.getTime() && dates.length < maxDates) {
+    dates.push(current);
+    const next = GetNextPaymentDate(current, untilDate, time, every);
+    if (!next || next.getTime() === current.getTime()) {
+      break;
+    }
+    current = next;
+  }
+  return dates;
+};
+
 export const SubscriptionGetUpcomingPayments = (subscription, endDate) => {
   if (!subscription.enabled) {
     return null;

@@ -52,7 +52,9 @@ export const SchemaSubscriptionEdit = z.object({
     required_error: 'Payment date is required',
     invalid_type_error: 'That\'s not a valid date!'
   }),
+  firstPaymentDate: z.date().optional().nullish(),
   untilDate: z.date().optional().nullish(),
+  historyPaymentDates: z.array(z.date()).optional(),
   timezone: z.string(),
   cycle: z.object({
     time: z.enum(['DAYS', 'WEEKS', 'MONTHS', 'YEARS']),

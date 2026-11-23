@@ -685,8 +685,13 @@
             "whenPlaceholder": "Select when to notify",
             "unitPlaceholder": "Unit",
             "addNotification": "Add Notification",
-            "deleteDialog": {
-              "title": "Confirm Delete",
+                    "historyDialog": {
+          "title": "Confirm Past Payments",
+          "description": "We found these past payment dates based on your first payment date and billing cycle. Deselect any you did not pay.",
+          "noPayments": "No past payments to record for this date and cycle.",
+          "confirm": "Save Subscription"
+        },
+        "deleteDialog": {       "title": "Confirm Delete",
               "description": "Are you sure you want to remove this notification template?"
             },
             "status": {
@@ -741,6 +746,10 @@
                 "ariaLabel": "Toggle Slack"
               }
             }
+          },
+          "firstPaymentDate": {
+            "label": "First Payment Date",
+            "description": "Optional. Records confirmed past payments from this date forward. Used when adding an existing subscription with history."
           },
           "paymentDate": {
             "label": "Next Payment Date"

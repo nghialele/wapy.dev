@@ -287,6 +287,7 @@ export async function SubscriptionActionEdit(data) {
     price: parseFloat(parsedData.data.price),
     currency: parsedData.data.currency,
     paymentDate: parsedData.data.paymentDate,
+    firstPaymentDate: parsedData.data.firstPaymentDate ?? undefined,
     untilDate: parsedData.data.untilDate,
     timezone: parsedData.data.timezone,
     cycle: parsedData.data.cycle,
@@ -303,32 +304,60 @@ export async function SubscriptionActionEdit(data) {
     return null;
   }
 
-  await prisma.subscription.upsert({
-    where: {
-      id: parsedData.data?.id || '',
-      userId: getUserId(),
-    },
-    update: {
-      ...baseSubscriptionData,
-      categories: {
-        set: [], // First disconnect all categories
-        connect: allCategories.map(c => ({ id: c.id }))
+  // Create-only: write the subscription and any user-confirmed historical
+  // payments atomically (#105). Cancel/none means no history rows.
+  const historyDates = (parsedData.data.historyPaymentDates || []);
+  if (parsedData.data.id || historyDates.length === 0) {
+    await prisma.subscription.upsert({
+      where: {
+        id: parsedData.data?.id || '',
+        userId: getUserId(),
       },
-      paymentMethods: {
-        set: [], // First disconnect all payment methods
-        connect: allPaymentMethods.map(c => ({ id: c.id }))
+      update: {
+        ...baseSubscriptionData,
+        categories: {
+          set: [], // First disconnect all categories
+          connect: allCategories.map(c => ({ id: c.id }))
+        },
+        paymentMethods: {
+          set: [], // First disconnect all payment methods
+          connect: allPaymentMethods.map(c => ({ id: c.id }))
+        },
       },
-    },
-    create: {
-      ...baseSubscriptionData,
-      categories: {
-        connect: allCategories.map(c => ({ id: c.id }))
-      },
-      paymentMethods: {
-        connect: allPaymentMethods.map(c => ({ id: c.id }))
-      },
-    }
-  });
+      create: {
+        ...baseSubscriptionData,
+        categories: {
+          connect: allCategories.map(c => ({ id: c.id }))
+        },
+        paymentMethods: {
+          connect: allPaymentMethods.map(c => ({ id: c.id }))
+        },
+      }
+    });
+  } else {
+    await prisma.$transaction(async (tx) => {
+      const subscription = await tx.subscription.create({
+        data: {
+          ...baseSubscriptionData,
+          categories: {
+            connect: allCategories.map(c => ({ id: c.id }))
+          },
+          paymentMethods: {
+            connect: allPaymentMethods.map(c => ({ id: c.id }))
+          },
+        }
+      });
+      await tx.pastPayment.createMany({
+        data: historyDates.map(date => ({
+          userId: getUserId(),
+          subscriptionId: subscription.id,
+          price: baseSubscriptionData.price,
+          currency: baseSubscriptionData.currency,
+          paymentDate: date,
+        })),
+      });
+    });
+  }
 
   revalidatePath('/');
   redirect('/');

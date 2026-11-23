@@ -147,6 +147,8 @@ model Subscription {
   paymentDate    DateTime        @map("payment_date")
   // Until date
   untilDate      DateTime?       @map("until_date")
+  // First historical payment date (start of billing history)
+  firstPaymentDate DateTime?     @map("first_payment_date")
   // Payment timezone
   timezone       String          @default("(GMT+02:00) Helsinki")
   // Cycle
@@ -252,5 +254,3 @@ model PastPayment {
   @@index([userId])
   @@index([subscriptionId])
 }
-
-
