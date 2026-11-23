@@ -974,7 +974,11 @@
         "title": "Upcoming Payments",
         "description": "Track your upcoming payments",
         "noPayments": "No upcoming payments in one month.",
-        "nextMonth": "Next Month"
+        "nextMonth": "Next Month",
+        "view": {
+          "list": "List",
+          "timeline": "Timeline"
+        }
       },
       "periods": {
         "thisMonth": {

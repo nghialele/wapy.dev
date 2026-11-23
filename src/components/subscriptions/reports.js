@@ -401,10 +401,85 @@ const UpcomingPayments = ({ upcoming }) => {
   );
 };
 
+const UpcomingPaymentsTimeline = ({ subscriptions, endDate }) => {
+  const t = useTranslations('components.reports.upcomingPayments');
+  const formatter = useFormatter();
+  const locale = useLocale();
+  const now = new Date();
+
+  const rows = useMemo(() => {
+    return subscriptions
+      .filter(sub => sub.enabled)
+      .map(sub => {
+        const logo = sub.logo ? JSON.parse(sub.logo) : null;
+        const payments = SubscriptionGetUpcomingPayments(sub, endDate)
+          .filter(payment => compareAsc(payment.date, now) >= 0)
+          .map(payment => ({ ...payment, zonedDate: toZonedTime(payment.date, sub.timezone) }))
+          .sort((a, b) => compareAsc(a.date, b.date));
+        return { id: sub.id, name: sub.name, currency: sub.currency, logo, payments };
+      })
+      .filter(row => row.payments.length > 0)
+      .sort((a, b) => compareAsc(a.payments[0].date, b.payments[0].date));
+  }, [subscriptions, endDate]);
+
+  if (rows.length === 0) {
+    return (
+      <div className='text-sm text-muted-foreground'>
+        {t('noPayments')}
+      </div>
+    );
+  }
+
+  const dayMs = 24 * 60 * 60 * 1000;
+  const startMs = now.getTime();
+  const endMs = endDate.getTime();
+  const spanMs = Math.max(endMs - startMs, dayMs);
+
+  return (
+    <div className='flex flex-col gap-3'>
+      <div className='flex flex-row gap-2 text-xs text-muted-foreground justify-between'>
+        <span>{formatter.dateTime(now, { dateStyle: 'medium' })}</span>
+        <span>{formatter.dateTime(endDate, { dateStyle: 'medium' })}</span>
+      </div>
+      {rows.map(row => (
+        <div key={`timeline-${row.id}`} className='flex flex-col gap-1'>
+          <div className='flex items-center gap-2 text-sm'>
+            <LogoIcon value={row.logo} className='size-4' />
+            <span className='font-medium'>{row.name}</span>
+          </div>
+          <div className='relative h-8 rounded-md bg-muted/40'>
+            {row.payments.map((payment, index) => {
+              const offsetPct = Math.min(Math.max(((payment.date.getTime() - startMs) / spanMs) * 100, 0), 100);
+              return (
+                <div
+                  key={`timeline-${row.id}-${index}`}
+                  className='absolute top-1 bottom-1 flex items-center justify-center min-w-8 rounded-md bg-primary text-primary-foreground px-2 text-xs font-medium'
+                  style={{ left: `${offsetPct}%` }}
+                  title={formatter.dateTime(payment.zonedDate, { dateStyle: 'medium', timeStyle: 'short' })}
+                >
+                  {formatPrice(payment.price, row.currency, locale)}
+                </div>
+              );
+            })}
+          </div>
+          <div className='flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground'>
+            {row.payments.map((payment, index) => (
+              <span key={`timeline-date-${row.id}-${index}`}>
+                {formatter.dateTime(payment.zonedDate, { dateStyle: 'medium', timeStyle: 'short' })} — {formatPrice(payment.price, row.currency, locale)}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export function SubscriptionReports({ subscriptions }) {
   const t = useTranslations('components.reports');
   const locale = useLocale();
   const tFilters = useTranslations('components.filters');
+
   const stats = useMemo(() => {
     const activeSubscriptions = subscriptions.filter(sub => sub.enabled);
     const inactiveSubscriptions = subscriptions.filter(sub => !sub.enabled);
@@ -600,9 +675,13 @@ export function SubscriptionReports({ subscriptions }) {
       inactive: inactiveSubscriptions.length,
       costs,
       categories,
-      paymentMethods
+      paymentMethods,
+      inOneMonthEnd: addMonths(new Date(), 1)
     };
   }, [subscriptions]);
+
+  const [view, setView] = useState('reports');
+
 
   return (
     <div className='flex flex-col gap-4 w-full items-center text-left'>
@@ -746,8 +825,18 @@ export function SubscriptionReports({ subscriptions }) {
           <CardTitle>{t('upcomingPayments.title')}</CardTitle>
           <CardDescription>{t('upcomingPayments.description')}</CardDescription>
         </CardHeader>
-        <CardContent className='flex flex-col gap-2'>
-          <UpcomingPayments upcoming={stats.costs.inOneMonth?.payments} />
+        <CardContent className='flex flex-col gap-4'>
+          <Tabs value={view} onValueChange={setView}>
+            <TabsList>
+              <TabsTrigger value='reports'>{t('upcomingPayments.view.list')}</TabsTrigger>
+              <TabsTrigger value='timeline'>{t('upcomingPayments.view.timeline')}</TabsTrigger>
+            </TabsList>
+          </Tabs>
+          {view === 'timeline' ? (
+            <UpcomingPaymentsTimeline subscriptions={subscriptions} endDate={stats.inOneMonthEnd} />
+          ) : (
+            <UpcomingPayments upcoming={stats.costs.inOneMonth?.payments} />
+          )}
         </CardContent>
       </Card>
     </div>
