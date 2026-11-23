@@ -875,7 +875,18 @@
       },
       "list": {
         "newSubscription": "New Subscription",
-        "noSubscription": "No subscriptions found"
+        "noSubscription": "No subscriptions found",
+        "quickAdd": {
+          "button": "Quick Add",
+          "title": "Quick Add Subscription",
+          "description": "Add a subscription with just the essentials. Everything else uses your defaults.",
+          "advanced": "Need more details? Use the full form",
+          "name": "Name",
+          "namePlaceholder": "Subscription Name",
+          "price": "Price",
+          "paymentDate": "Next Payment Date",
+          "submit": "Add Subscription"
+        }
       }
     },
     "filters": {

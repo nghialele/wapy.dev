@@ -10,13 +10,15 @@ import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { SubscriptionCard } from '@/components/subscriptions/card';
 import { FilterPanel } from '@/components/subscriptions/filter';
+import { SubscriptionQuickAdd } from '@/components/subscriptions/quick-add';
 
-export function SubscriptionList({ subscriptions, externalServices }) {
+export function SubscriptionList({ subscriptions, externalServices, user }) {
   const t = useTranslations('components.subscriptions.list');
   const tFilters = useTranslations('components.filters');
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchFilter, setSearchFilter] = useState(searchParams.get('s') || '');
+  const [quickAddOpen, setQuickAddOpen] = useState(false);
 
   // Initialize Fuse instance once
   const fuse = useMemo(() => new Fuse(subscriptions, {
@@ -66,6 +68,14 @@ export function SubscriptionList({ subscriptions, externalServices }) {
             {t('newSubscription')}
           </Link>
         </Button>
+
+        <Button variant='outline' className='w-full sm:w-auto' onClick={() => setQuickAddOpen(true)}>
+          <Icons.sparkles />
+          {t('quickAdd.button')}
+        </Button>
+        {quickAddOpen && (
+          <SubscriptionQuickAdd user={user} open={quickAddOpen} onOpenChange={setQuickAddOpen} />
+        )}
         <div className='flex flex-row gap-2 grow w-full sm:w-auto'>
           <SearchBar value={searchFilter} onChange={setSearchFilter} />
           <FilterPanel

@@ -1,6 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
+import { userGetSession } from '@/lib/user-session';
 import { withAuth } from '@/lib/with-auth';
 import { SubscriptionList } from '@/components/subscriptions/list';
 
@@ -43,9 +44,11 @@ const HomeMember = async ({ userId, externalServices }) => {
     ]
   });
 
+  const { user } = await userGetSession();
+
   return (
     <div className='flex flex-col items-center w-full max-w-3xl gap-4'>
-      <SubscriptionList subscriptions={subscriptions} externalServices={externalServices} />
+      <SubscriptionList subscriptions={subscriptions} externalServices={externalServices} user={{ currency: user?.currency, timezone: user?.timezone, notifications: user?.notifications, paymentMethods: [], categories: [] }} />
     </div>
   );
 };
